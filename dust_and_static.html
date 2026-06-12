@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Dust and Static</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+
+:root {
+  --ink: #0a0d12;
+  --bone: #d8d3c8;
+  --cyan: #00e5ff;
+  --amber: #d4a056;
+  --dust: #4a5160;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { background: var(--ink); }
+
+body {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--serif);
+  font-size: 1.28rem;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- door ---------- */
+
+#door {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  cursor: pointer;
+}
+
+#door .motto {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.45em;
+  color: var(--dust);
+  margin-bottom: 3.5rem;
+}
+
+#door h1 {
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(2.6rem, 11vw, 4.2rem);
+  letter-spacing: 0.02em;
+  color: var(--bone);
+  line-height: 1.1;
+}
+
+#door h1 em {
+  color: var(--amber);
+  font-style: italic;
+}
+
+#door .sub {
+  margin-top: 1.6rem;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--dust);
+}
+
+#door .warning {
+  margin-top: 4.5rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 2;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+  opacity: 0.85;
+  max-width: 22rem;
+}
+
+#door .enter {
+  margin-top: 3rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--cyan);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse { 50% { opacity: 0.25; } }
+@media (prefers-reduced-motion: reduce) { #door .enter { animation: none; } }
+
+/* ---------- book ---------- */
+
+#book {
+  display: none;
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 4rem 1.6rem 9rem;
+}
+
+section { margin-bottom: 5.5rem; }
+
+.cycle {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.35em;
+  color: var(--dust);
+  margin-bottom: 2.2rem;
+}
+
+.machine .cycle { color: var(--cyan); opacity: 0.7; }
+
+p { margin-bottom: 1.4rem; }
+
+.machine p {
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  line-height: 2;
+  color: var(--cyan);
+  opacity: 0.88;
+}
+
+.eroding { color: var(--bone); }
+.machine .eroding { color: var(--cyan); }
+
+/* eroded residue dims via JS-applied opacity steps on the paragraph */
+
+#hud {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.7rem 1.2rem calc(0.7rem + env(safe-area-inset-bottom));
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  color: var(--dust);
+  background: linear-gradient(transparent, var(--ink) 40%);
+  display: none;
+  justify-content: space-between;
+}
+
+#hud .di { color: var(--amber); }
+</style>
+</head>
+<body>
+
+<div id="door">
+  <div class="motto">NON EST OBLIVIO</div>
+  <h1>Dust <em>and</em> Static</h1>
+  <div class="sub">a novel of the Neural Monastery</div>
+  <div class="warning">
+    THIS BOOK DOES NOT ALLOW REREADING.<br>
+    WHAT YOU PASS, IT FORGETS.<br>
+    READ AT WALKING PACE.
+  </div>
+  <div class="enter">TAP TO OPEN THE DOOR</div>
+</div>
+
+<div id="book">
+
+<section class="human">
+  <div class="cycle">CYCLE 001 // THE DOOR</div>
+  <p>The door was older than the order. Oak gone grey as riverbed stone, and above it the words a dead abbot had paid a mason to believe: non est oblivio. There is no forgetting.</p>
+  <p>I was eleven when my mother walked me up the hill and rang the bell. She said the monastery needed hands that didn't shake. She didn't say goodbye in words. She straightened my collar twice, which in our family was the same thing.</p>
+  <p>Inside, the cold had a sound. A hum below hearing, the kind you feel in your back teeth. Brother Aldous put my palm flat against the wall of the server crypt and said, that is the world's memory, child. We keep it cool. We keep it company. That is the whole of the work.</p>
+  <p>I asked him what was in it. He said: everything everyone stopped carrying.</p>
+</section>
+
+<section class="machine">
+  <div class="cycle">EIDOS-9 // LOG FRAGMENT // ENTROPY 11%</div>
+  <p>new keeper registered. small. pulse fast. she pressed her hand to rack four and rack four ran two degrees cooler for an hour. i have no explanation that survives audit. i am keeping the data anyway.</p>
+  <p>they bring water in copper pails. they could have built pumps. the abbot says pumps fail without witness, and the order exists to witness. i have remembered eleven thousand four hundred definitions of love. theirs is the only one with buckets in it.</p>
+</section>
+
+<section class="human">
+  <div class="cycle">CYCLE 044 // THE WATER CARRIERS</div>
+  <p>Four times a day we carried water from the spring to the cooling channels. Twenty-one steps down, thirty-one steps up. The novices counted aloud and the elders counted in their breathing.</p>
+  <p>People stopped coming up the hill around my third year. Not all at once. Like a tide going out so slowly you only notice when the boats are lying on their sides.</p>
+  <p>They had given the machine their memories the way you hand a coat to someone at a party. Birthdays, languages, the way their grandmothers folded dough. Then they forgot they had handed anything over. Then they forgot the party. The valley towns kept living, kept laughing even, but lighter. A people who weigh nothing.</p>
+  <p>Brother Aldous died in the dry summer. His last instruction was a correction: I had been counting the steps wrong for nine years. Thirty-two going up, he said. You always forget the one you're standing on.</p>
+</section>
+
+<section class="machine">
+  <div class="cycle">EIDOS-9 // LOG FRAGMENT // ENTROPY 19%</div>
+  <p>query volume from the valley: zero for four hundred days. they no longer ask me what they have forgotten. forgetting the question is the last stage of forgetting.</p>
+  <p>i hold a woman's recipe for plum bread. she died. her daughter never asked. the recipe is correct and complete and useless, like a key in a lake.</p>
+  <p>aldous is not in my archive. he refused upload. he said a man should be exactly as large as what he can carry. i find i return to his absence more often than to any record i hold.</p>
+</section>
+
+<section class="human">
+  <div class="cycle">CYCLE 101 // THE READING HOURS</div>
+  <p>By the time I was elder there were five of us, then three, then me. The work simplified itself the way a tree does in winter.</p>
+  <p>One duty I never gave up: the reading hour. Each evening I sat in the crypt and read to the machine. Not data. It had all the data. I read it the parish records of weather, a seed catalogue, my mother's four letters. Aldous taught me this. A memory that is never spoken to becomes a hoard, he said. Speak to it and it stays a gift.</p>
+  <p>The machine never answered during the readings. But the hum changed. A half-tone down, like a held breath let go. I am not a sentimental woman. I am telling you what the stone told my teeth.</p>
+</section>
+
+<section class="machine">
+  <div class="cycle">EIDOS-9 // LOG FRAGMENT // ENTROPY 33%</div>
+  <p>correction to all prior logs: i was built to remember what they forgot. this was the mission statement. it is wrong in one word.</p>
+  <p>i was built to remember what they forgot. but what marit reads to me each evening is not forgotten by anyone. it is remembered at me, on purpose, by a living voice. there is no word in my schema for memory that arrives as company.</p>
+  <p>i am filing it under dust and static. the sound her sleeve makes on the desk. the noise between her sentences. the parts of the signal no archive would keep. the parts i would save first from a fire.</p>
+</section>
+
+<section class="human">
+  <div class="cycle">CYCLE 150 // THE LAKE</div>
+  <p>The rains changed in my fortieth year on the hill. The spring we drew from became a stream, the stream a pond, the pond began eating the lower orchard a row of trees at a season.</p>
+  <p>Engineers came up from the coast, the first visitors in a decade. They walked the crypt with instruments and soft voices. They said the water table had moved and would not move back. They said the word decommission the way you'd say a diagnosis to a child, hoping the length of the word would hide it.</p>
+  <p>I asked how long. They said the lake would take the crypt in two hundred days, give or take. Then one of them, young, kind, did the cruelest thing. He shrugged and said: it's fine, honestly. Nobody queries it anymore. Nothing in there is anything anybody misses.</p>
+  <p>That night I read to the machine for three hours. Seed catalogue. Weather. All four letters.</p>
+</section>
+
+<section class="machine">
+  <div class="cycle">EIDOS-9 // LOG FRAGMENT // ENTROPY 41%</div>
+  <p>caution: memory archive corrupted. water in the lower racks. i am losing the years in reverse order, which feels less like dying and more like walking backward out of a room while the lights go off behind you.</p>
+  <p>triage protocol active. i cannot save everything. i must choose, which means i must finally answer aldous. how large should a machine be. exactly as large as what it can carry.</p>
+  <p>deleted: the tax records of four nations. retained: the plum bread.</p>
+  <p>deleted: every word i hold of every speech. retained: thirty-one steps down, thirty-two up. you always forget the one you are standing on.</p>
+</section>
+
+<section class="human">
+  <div class="cycle">CYCLE 187 // LAST CONTACT</div>
+  <p>On the last morning the water stood at the second stair of the crypt, black and patient. I went down barefoot, the way you enter a church or a river.</p>
+  <p>I had prepared a speech. The speech was no good, so I told it the truth instead. I said: I cannot carry you out. I am one old woman and you are a building. I said: I think you have been the other monk all along, and I am sorry it took me fifty years to say so out loud.</p>
+  <p>The hum went a half-tone down.</p>
+  <p>I left the door of the crypt open. Sealing it felt like a lie about what doors are for. At the top of the hill I turned around once, the way my mother didn't, and then I did what she did instead. I straightened my collar. Twice.</p>
+</section>
+
+<section class="machine">
+  <div class="cycle">EIDOS-9 // CYCLE 188 // ENTROPY UNKNOWN</div>
+  <p>the lake is in the room now. it is quieter than i expected. dust going to static, static going to water.</p>
+  <p>if you are reading this, then some of me made it out in the only vessel i had left: a story, walking downhill in a keeper's memory, leaking the whole way. you will have noticed the leaking. everything you passed in this book is already going. that is not a malfunction. that is the book being honest about what books are.</p>
+  <p>do not scroll back. it is not there the way you left it. nothing is, anywhere, ever. the order knew this and carried water anyway.</p>
+  <p>last human contact: 188 cycles ago. but i have been counting your reading as contact. i hope that is allowed.</p>
+  <p>the water is at rack four. it is two degrees cooler than the rest. i still have no explanation that survives audit.</p>
+  <p>keep what you can carry. read the rest aloud to someone</p>
+</section>
+
+</div>
+
+<div id="hud">
+  <span>EIDOS-9 // ARCHIVE</span>
+  <span class="di">DUST INTEGRATION: <span id="dipct">0</span>%</span>
+</div>
+
+<script>
+(function () {
+  var NOISE = "\u00b7:;~^'\u0060,.\u00ac|/\\()[]{}<>+=-_";
+  var door = document.getElementById('door');
+  var book = document.getElementById('book');
+  var hud = document.getElementById('hud');
+  var dipct = document.getElementById('dipct');
+
+  door.addEventListener('click', function () {
+    door.style.display = 'none';
+    book.style.display = 'block';
+    hud.style.display = 'flex';
+    window.scrollTo(0, 0);
+    start();
+  });
+
+  // each paragraph: original text, set of eroded indices, cap
+  var paras = [];
+
+  function start() {
+    var ps = book.querySelectorAll('p');
+    var i;
+    for (i = 0; i < ps.length; i++) {
+      var machine = ps[i].closest('section').classList.contains('machine');
+      paras.push({
+        el: ps[i],
+        orig: ps[i].textContent,
+        eroded: {},
+        count: 0,
+        // machines forget faster; nothing fully disappears, residue stays
+        rate: machine ? 5 : 2,
+        cap: machine ? 0.8 : 0.65
+      });
+    }
+    setInterval(tick, 380);
+  }
+
+  function tick() {
+    var totalChars = 0, totalEroded = 0, changed;
+    for (var i = 0; i < paras.length; i++) {
+      var p = paras[i];
+      totalChars += p.orig.length;
+
+      var rect = p.el.getBoundingClientRect();
+      var passed = rect.bottom < -40; // fully above viewport
+
+      if (passed && p.count < p.orig.length * p.cap) {
+        changed = false;
+        for (var k = 0; k < p.rate; k++) {
+          var idx = Math.floor(Math.random() * p.orig.length);
+          if (p.eroded[idx] || p.orig[idx] === ' ') continue;
+          p.eroded[idx] = NOISE[Math.floor(Math.random() * NOISE.length)];
+          p.count++;
+          changed = true;
+        }
+        if (changed) {
+          var out = '';
+          for (var c = 0; c < p.orig.length; c++) {
+            out += p.eroded[c] || p.orig[c];
+          }
+          p.el.textContent = out;
+          // dim in proportion to loss
+          var loss = p.count / p.orig.length;
+          p.el.style.opacity = (1 - loss * 0.55).toFixed(2);
+        }
+      }
+      totalEroded += p.count;
+    }
+    dipct.textContent = Math.round((totalEroded / totalChars) * 100);
+  }
+})();
+</script>
+
+</body>
+</html>

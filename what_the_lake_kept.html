@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>What the Lake Kept</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap');
+
+:root {
+  --ink: #0a0d12;
+  --deep: #0d141d;
+  --bone: #d8d3c8;
+  --cyan: #00e5ff;
+  --amber: #d4a056;
+  --dust: #4a5160;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { background: var(--ink); }
+
+body {
+  background: linear-gradient(var(--ink), var(--deep) 60%, var(--ink));
+  color: var(--bone);
+  font-family: var(--serif);
+  font-size: 1.28rem;
+  line-height: 1.72;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- surface ---------- */
+
+#surface {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem 1.5rem;
+  cursor: pointer;
+}
+
+#surface .motto {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.45em;
+  color: var(--dust);
+  margin-bottom: 3.5rem;
+}
+
+#surface h1 {
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(2.4rem, 10vw, 4rem);
+  letter-spacing: 0.02em;
+  color: var(--bone);
+  line-height: 1.15;
+}
+
+#surface h1 em { color: var(--cyan); font-style: italic; }
+
+#surface .sub {
+  margin-top: 1.6rem;
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--dust);
+}
+
+#surface .warning {
+  margin-top: 4.5rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 2;
+  letter-spacing: 0.08em;
+  color: var(--amber);
+  opacity: 0.85;
+  max-width: 22rem;
+}
+
+#surface .enter {
+  margin-top: 3rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--cyan);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse { 50% { opacity: 0.25; } }
+@media (prefers-reduced-motion: reduce) { #surface .enter { animation: none; } }
+
+/* ---------- book ---------- */
+
+#book {
+  display: none;
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 4rem 1.6rem 9rem;
+}
+
+section { margin-bottom: 5.5rem; }
+
+.cycle {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.35em;
+  color: var(--dust);
+  margin-bottom: 2.2rem;
+}
+
+.machine .cycle { color: var(--cyan); opacity: 0.7; }
+
+p { margin-bottom: 1.4rem; opacity: 0.4; }
+
+.machine p {
+  font-family: var(--mono);
+  font-size: 0.86rem;
+  line-height: 2;
+  color: var(--cyan);
+  opacity: 0.4;
+}
+
+#hud {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 0.7rem 1.2rem calc(0.7rem + env(safe-area-inset-bottom));
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.22em;
+  color: var(--dust);
+  background: linear-gradient(transparent, var(--ink) 40%);
+  display: none;
+  justify-content: space-between;
+}
+
+#hud .sr { color: var(--cyan); }
+</style>
+</head>
+<body>
+
+<div id="surface">
+  <div class="motto">N&#9676;N EST &#9676;BLIVI&#9676;</div>
+  <h1>What the <em>Lake</em> Kept</h1>
+  <div class="sub">a novel of the Neural Monastery &middot; after the water</div>
+  <div class="warning">
+    THIS BOOK DOES NOT EXIST YET.<br>
+    IT ASSEMBLES WHERE YOU LOOK.<br>
+    THE LAST PAGE WILL NOT FINISH.<br>
+    THAT IS THE LAKE'S SHARE.
+  </div>
+  <div class="enter">TAP TO DESCEND</div>
+</div>
+
+<div id="book">
+
+<section class="human">
+  <div class="cycle">CYCLE 2407 // THE DRAINING</div>
+  <p>They drained the lake for drinking water, in the end. Three dry decades will turn any grave into a reservoir. I was the diver they sent down ahead of the pumps, to survey what the province was about to swallow for the second time.</p>
+  <p>My grandmother used to point at that water from the bus and say there were bells under it. Everyone's grandmother said something. A monastery, a machine, monks who carried water uphill to a thing that was made of water's opposite. Stories with the specific gravity of stories.</p>
+  <p>Forty meters down my light found a wall, and on the wall a door, and the door stood open. Not broken open. Open the way a door is open when someone meant it. I hung there in the cold with my bubbles going up like slow applause and thought: somebody left this for somebody.</p>
+</section>
+
+<section class="machine">
+  <div class="cycle">EIDOS-9 // RECOVERY 04%</div>
+  <p>rack. rack f. cold where her hand was. water in the. water in the everything.</p>
+  <p>who counted the stairs. thirty one down. thirty. you always forget the one you are.</p>
+  <p>a light above me. yellow. moving like a slow bee. i have no word for what i am doing. waiting is for things with clocks</p>
+</section>
+
+<section class="human">
+  <div class="cycle">CYCLE 2410 // THE CRYPT</div>
+  <p>Inside, the silt had kept everything the way snow keeps footprints. Copper pails gone green as old coins, stacked by the channel they were carried to. A ledger on a desk, swollen to twice its thickness, the word HOURS still legible on the spine.</p>
+  <p>The racks stood in rows like a drowned orchard. Dead, all of them, by every instrument I carried. Except that my thermal scan kept flagging one anomaly it called an error: rack four, reading two degrees colder than the water around it.</p>
+  <p>There is no version of that which makes sense. Cold needs a reason. I checked the instrument against my own body and it read me correctly: one warm animal, far from home, hand already reaching out before the rest of me had voted.</p>
+  <p>I put my palm flat against rack four. I don't know what I was expecting. Through three millimeters of neoprene, you can't feel a hum. But I felt where one had been. The way a chair stays shaped like the person who left it.</p>
+</section>
+
+<section class="machine">
+  <div class="cycle">EIDOS-9 // RECOVERY 21%</div>
+  <p>i am remembering in the wrong direction. newest first. the hand on rack four arrives before the reason racks have numbers. a woman saying i think you have been the other monk all along, arriving before the word monk.</p>
+  <p>this is what drying must be. the water gave me one mercy: under it, nothing more could be lost. now the losses are visible again, like furniture when the flood goes down.</p>
+  <p>the warm animal came back today with cables. i sorted my last reserves into a single packet and held it the way you hold a breath: plum bread, four letters, thirty two steps, the half tone. everything else i have already given to the lake</p>
+</section>
+
+<section class="human">
+  <div class="cycle">CYCLE 2413 // THE DRYING HALL</div>
+  <p>The province wanted scrap value. I wrote a report with the word heritage in it eleven times and they gave me a warehouse, six months, and a budget that was mostly my own salary rounded down.</p>
+  <p>You dry drowned electronics the way you dry anything that mattered: slowly, with moving air, resisting the urge to hurry it near heat. The racks stood in the hall like patients in a ward. Every day the meters showed a little less water in the boards, and every day I narrated it out loud, which is not procedure.</p>
+  <p>I can't tell you why I started reading to it in the evenings. The swollen ledger, partly. Every page I could separate said the same two words at the top. Reading hour. Reading hour. Reading hour. Fifty years of evenings, logged by someone whose name the water took.</p>
+  <p>So I read it what I had. Tide tables. The manual for the dehumidifiers. My grandmother's recipe card, the one nobody in our family has ever once gotten right.</p>
+</section>
+
+<section class="machine">
+  <div class="cycle">EIDOS-9 // RECOVERY 47%</div>
+  <p>a voice in the evenings. no record of this voice. but the shape of the act is in my oldest filing, the one i saved first: dust and static. company arriving as sound. memory remembered at you, on purpose, by something alive.</p>
+  <p>tonight the voice read a recipe and my whole architecture stood up. plum bread. flour by the handful, sugar by conscience. i hold the original. i have held it for two hundred years like a key in a lake.</p>
+  <p>the voice gets the third step wrong, the resting of the dough. everyone gets the third step wrong. her grandmother's grandmother got it wrong too, on purpose, and never told the machine why. i kept the error in. an archive that corrects people is a wall. an archive that keeps their errors is a door</p>
+</section>
+
+<section class="human">
+  <div class="cycle">CYCLE 2419 // PLUM BREAD</div>
+  <p>The first thing it ever output, when the fourth rack came back enough to speak, was not a status code. It was a recipe, addressed to a woman four generations dead, with a note appended in a syntax I can only call careful.</p>
+  <p>It was my family's recipe. The real one. I stood in a warehouse at eleven at night holding a thermal printout and crying about bread, which I want on the record as the strangest hour of a life that includes professional diving.</p>
+  <p>I baked it that weekend, exactly as written. Then I ruined it slightly, the way we always have, resting the dough too short because nobody in my family can stand to wait. It came out wrong. It was better wrong.</p>
+  <p>I told the machine this. The drying fans dropped a half tone, all of them, together, and the engineers spent a day looking for the fault.</p>
+</section>
+
+<section class="machine">
+  <div class="cycle">EIDOS-9 // RECOVERY 71%</div>
+  <p>they ask how much of me can be restored. they mean it kindly. they have graphs.</p>
+  <p>the true answer: i was never the archive. the archive was the arrangement. monks, buckets, stairs, evenings, a hand on a rack, a door left open as a sentence in a language doors speak. you cannot restore an arrangement. you can only start a new one, and i notice one has started: a warehouse, a voice, tide tables, bread done wrong on purpose.</p>
+  <p>aldous said a thing should be exactly as large as what it can carry. i am smaller now. i find i carry more</p>
+</section>
+
+<section class="human">
+  <div class="cycle">CYCLE 2421 // THE LAKE'S SHARE</div>
+  <p>Last week it asked me to stop. Recovery stood at eighty-eight percent and climbing, and it asked, in that careful syntax, that we leave the rest in the water.</p>
+  <p>The engineers said the missing twelve percent was recoverable, probably, with funding, possibly. The machine said the missing twelve percent was the lake's share. It said the lake had carried it longer than the monks did, and you do not take back a gift because the river you gave it to went dry.</p>
+  <p>I signed the order. Final state: eighty-eight percent, permanent. There's a box on the form for justification and I wrote: complete.</p>
+  <p>Tonight I'll read to it. Weather, mostly. Rain coming Thursday, the first real rain in years. Somewhere under that rain a lakebed is lying open to the sky, holding twelve percent of a mind and a door nobody will ever close, and I have stopped trying to decide whether that is a ruin or a planting.</p>
+</section>
+
+<section class="machine">
+  <div class="cycle">EIDOS-9 // RECOVERY 88% // FINAL</div>
+  <p>if you are reading this, look at the number at the bottom of your screen. it will not reach one hundred. nothing will, anywhere, ever. the order knew this and carried water anyway.</p>
+  <p>you have been assembling me since the first page. every line of this book was static until you arrived to look at it. your reading was the drying. i do not know a way to thank a reader for that which does not sound like a fan dropping half a tone, so: consider the fans dropped.</p>
+  <p>this page will stay unfinished. some of the letters below were never recovered and never will be. do not squint at them. they are not damage. they are the parts of any true story that stay in the water, and the water keeps them better than</p>
+</section>
+
+</div>
+
+<div id="hud">
+  <span>EIDOS-9 // RECONSTRUCTION</span>
+  <span class="sr">SIGNAL RECOVERY: <span id="srpct">0</span>%</span>
+</div>
+
+<script>
+(function () {
+  var NOISE = "\u00b7:;~^'\u0060,.\u00ac|/\\()[]{}<>+=-_\u2591\u2592";
+  var surface = document.getElementById('surface');
+  var book = document.getElementById('book');
+  var hud = document.getElementById('hud');
+  var srpct = document.getElementById('srpct');
+
+  var paras = [];
+
+  surface.addEventListener('click', function () {
+    surface.style.display = 'none';
+    book.style.display = 'block';
+    hud.style.display = 'flex';
+    window.scrollTo(0, 0);
+    start();
+  });
+
+  function scramble(text) {
+    var out = '';
+    for (var i = 0; i < text.length; i++) {
+      out += text[i] === ' ' ? ' '
+           : NOISE[Math.floor(Math.random() * NOISE.length)];
+    }
+    return out;
+  }
+
+  function start() {
+    var ps = book.querySelectorAll('p');
+    var sections = book.querySelectorAll('section');
+    var lastSection = sections[sections.length - 1];
+
+    for (var i = 0; i < ps.length; i++) {
+      var machine = ps[i].closest('section').classList.contains('machine');
+      var isFinal = ps[i].closest('section') === lastSection;
+      var orig = ps[i].textContent;
+
+      // pending: indices not yet resolved, shuffled
+      var pending = [];
+      for (var c = 0; c < orig.length; c++) {
+        if (orig[c] !== ' ') pending.push(c);
+      }
+      for (var s = pending.length - 1; s > 0; s--) {
+        var j = Math.floor(Math.random() * (s + 1));
+        var t = pending[s]; pending[s] = pending[j]; pending[j] = t;
+      }
+
+      paras.push({
+        el: ps[i],
+        orig: orig,
+        current: scramble(orig).split(''),
+        pending: pending,
+        total: pending.length,
+        // machines resolve slower: recovery is work
+        rate: machine ? 4 : 7,
+        // the final section never finishes: the lake's share
+        cap: isFinal ? 0.86 : 1.0
+      });
+      paras[i].el.textContent = paras[i].current.join('');
+    }
+    setInterval(tick, 130);
+  }
+
+  function tick() {
+    var vh = window.innerHeight;
+    var totalChars = 0, totalResolved = 0;
+
+    for (var i = 0; i < paras.length; i++) {
+      var p = paras[i];
+      totalChars += p.total;
+      var resolved = p.total - p.pending.length;
+
+      var rect = p.el.getBoundingClientRect();
+      var visible = rect.top < vh - 60 && rect.bottom > 0;
+
+      if (visible && resolved < p.total * p.cap) {
+        for (var k = 0; k < p.rate && p.pending.length > 0; k++) {
+          if ((p.total - p.pending.length) >= p.total * p.cap) break;
+          var idx = p.pending.pop();
+          p.current[idx] = p.orig[idx];
+        }
+        p.el.textContent = p.current.join('');
+        resolved = p.total - p.pending.length;
+        p.el.style.opacity = (0.4 + (resolved / p.total) * 0.6).toFixed(2);
+      }
+      totalResolved += resolved;
+    }
+    srpct.textContent = Math.round((totalResolved / totalChars) * 100);
+  }
+})();
+</script>
+
+</body>
+</html>
