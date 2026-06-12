@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hours — a book that reads the clock</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,200..600,0..100;1,9..144,200..600,0..100&family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --bg:#101018;
+  --ink:#d8d4e0;
+  --accent:#c9a06a;
+  --dim:#777;
+  --blur:0px;
+  --space:0em;
+  --weight:340;
+}
+
+/* one palette per band of the day */
+body.h-firstlight{--bg:#1a1622;--ink:#e8dcd2;--accent:#e89a7a;--dim:#8a7d88}
+body.h-morning{--bg:#f2ede2;--ink:#2e2a26;--accent:#b06a3a;--dim:#9a8f80}
+body.h-midday{--bg:#f7f4ec;--ink:#26262a;--accent:#3a6ab0;--dim:#a0a0a8}
+body.h-afternoon{--bg:#efe6d4;--ink:#33291f;--accent:#a05a28;--dim:#a89a84}
+body.h-evening{--bg:#241c26;--ink:#e6d8ce;--accent:#e07a52;--dim:#8d7a82}
+body.h-nightfall{--bg:#141420;--ink:#cfcce0;--accent:#8e7ab8;--dim:#6a6680}
+body.h-deepnight{--bg:#0c0c14;--ink:#b8b4c8;--accent:#5a7a9a;--dim:#55525f;--space:.03em;--weight:280}
+body.h-wolf{--bg:#08080e;--ink:#9a96ac;--accent:#4a5a72;--dim:#45434e;--blur:.4px;--space:.09em;--weight:220}
+
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Newsreader',Georgia,serif;
+  font-weight:var(--weight);
+  font-size:1.15rem;
+  line-height:1.8;
+  letter-spacing:var(--space);
+  transition:background 1.6s ease,color 1.6s ease;
+  min-height:100vh;
+}
+
+main{max-width:33rem;margin:0 auto;padding:14vh 1.5rem 6rem}
+
+.eyebrow{
+  font-family:'Fraunces',serif;
+  font-size:.75rem;
+  letter-spacing:.32em;
+  text-transform:uppercase;
+  color:var(--accent);
+  margin-bottom:2.4rem;
+}
+
+h1{
+  font-family:'Fraunces',serif;
+  font-weight:300;
+  font-variation-settings:'SOFT' 80,'opsz' 144;
+  font-size:clamp(2.6rem,11vw,4rem);
+  line-height:1.05;
+  margin-bottom:.8rem;
+  color:var(--ink);
+}
+
+.clockline{
+  font-style:italic;
+  color:var(--dim);
+  margin-bottom:4rem;
+  font-size:1rem;
+}
+
+article{display:none}
+article.now{display:block}
+
+article p{
+  margin-bottom:1.3rem;
+  filter:blur(var(--blur));
+}
+article p:last-of-type{margin-bottom:0}
+
+.notyours{
+  display:none;
+  margin-top:3rem;
+  font-style:italic;
+  color:var(--dim);
+  font-size:.95rem;
+}
+body.visiting .notyours{display:block}
+.notyours button{
+  background:none;border:none;cursor:pointer;
+  font:inherit;color:var(--accent);
+  font-style:italic;
+  padding:0;margin-left:.3em;
+  border-bottom:1px solid var(--accent);
+}
+
+/* the dial */
+.dial{
+  margin-top:6rem;
+  display:flex;
+  gap:.9rem;
+  align-items:center;
+  flex-wrap:wrap;
+}
+.dial span{
+  font-family:'Fraunces',serif;
+  font-size:.7rem;
+  letter-spacing:.25em;
+  text-transform:uppercase;
+  color:var(--dim);
+  width:100%;
+  margin-bottom:.4rem;
+}
+.dial button{
+  width:13px;height:13px;
+  border-radius:50%;
+  border:1px solid var(--dim);
+  background:transparent;
+  cursor:pointer;
+  padding:0;
+  transition:transform .2s ease,background .2s ease;
+}
+.dial button:hover{transform:scale(1.35)}
+.dial button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.dial button.here{background:var(--accent);border-color:var(--accent)}
+
+footer{
+  margin-top:4rem;
+  color:var(--dim);
+  font-size:.85rem;
+  font-style:italic;
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="eyebrow">a book that reads the clock</div>
+  <h1>Hours</h1>
+  <p class="clockline" id="clockline"></p>
+  <noscript><p style="font-style:italic;color:#8d8270">This book needs to read your clock, and this viewer will not let it. Open it in a real browser, Safari or Chrome, and the right hour will appear.</p></noscript>
+
+  <article data-band="firstlight">
+    <p>You have opened this in the hour the light arrives without an audience. Good. This page prefers it.</p>
+    <p>Outside, the street is being developed like a photograph, brick by brick out of the grey bath. The gulls start before the people do, arguing over a city they are convinced they own, and honestly the paperwork is on their side.</p>
+    <p>Somewhere a first kettle. Somewhere a last cyclist coming home from the other direction, from yesterday. The two of them pass without knowing they are a hinge.</p>
+    <p>Whatever you got up this early to worry about, notice that the light is not worried. It has done this every day for four and a half billion years and has never once arrived in the wrong place.</p>
+    <p>The day is still soft enough to take a thumbprint. Press gently.</p>
+  </article>
+
+  <article data-band="morning">
+    <p>You are reading this in the practical hours, when the world has its sleeves rolled. The page will keep this brief, you have things.</p>
+    <p>But note, while you are here: the way morning light hits a table is the same event as a wave hitting a shore, slowed down by a factor of glass. The crumbs are stones. The coffee ring is a tide line.</p>
+    <p>The street outside has its rhythm up now, bicycles in schools like fish, the tram a long animal that knows one path. Everyone is mid-sentence. The whole city is mid-sentence.</p>
+    <p>That email can wait the length of one window. That is the entire teaching of this hour. One window, looked through properly, on purpose.</p>
+    <p>Now go. The page will be different when you come back. So will you, slightly. That is the arrangement.</p>
+  </article>
+
+  <article data-band="midday">
+    <p>Noon, or near it. The hour with no shadows to hide in. The page goes plain to match.</p>
+    <p>This is when the day is widest, and the widest part of anything is the hardest to see, the way you cannot see a plain you are standing on. Mornings have direction. Evenings have direction. Noon just is, a held note.</p>
+    <p>Eat something with your hands if you can. Bread counts. An apple counts double.</p>
+    <p>Somewhere right now it is the hour of the wolf, the deep 3 a.m., on the other side of the planet. Someone is awake there and unconvinced of everything. Hold the day steady for them. That is what noon is for, someone has to be the counterweight.</p>
+    <p>The light will start leaning within the hour. Nothing stays this vertical for long. Nothing should.</p>
+  </article>
+
+  <article data-band="afternoon">
+    <p>The light has started to lean, and everything it touches leans with it. Welcome to the long afternoon, the hour of honey and slow arithmetic.</p>
+    <p>This is when the day quietly decides what it was. The morning made promises, and now they come due, and most of them get renegotiated, and that is fine. A day that keeps every promise was not ambitious enough at breakfast.</p>
+    <p>Outside, the bricks are doing their best work. Dutch brick was invented for the four o'clock sun, whatever the historians say. It drinks the light and pays it back at a better color.</p>
+    <p>Tiredness arrives around now and pretends to be sadness. Do not be fooled. It is usually just tiredness wearing the costume.</p>
+    <p>One more push, then the soft hours. They are already in the building.</p>
+  </article>
+
+  <article data-band="evening">
+    <p>The lamps are coming on, one window at a time, and every lit window is a sentence in a book the street is writing about itself.</p>
+    <p>You opened this in the gold hour of indoors. The page warms to match. This is when the day exhales, when soup makes sense, when the news should be replaced entirely by someone telling you what the sky did.</p>
+    <p>Look at your hands. They did things today. Some of the things will outlast the week. You will not find out which ones for years, and by then you will have forgotten this Tuesday entirely, which is how the important things prefer to travel. Unobserved, in plain crates.</p>
+    <p>The canal outside has gone the color of a closed eye.</p>
+    <p>Whatever is unfinished, leave it unfinished beautifully. That is a skill. This hour exists to practice it.</p>
+  </article>
+
+  <article data-band="nightfall">
+    <p>The street has handed itself over to the lamps now, and the lamps run a gentler administration. Fewer rules. Longer shadows. The cats hold their meetings.</p>
+    <p>You are reading in the hour when the day's voice drops, and the page drops with it, you may have noticed, the ink a shade quieter, the letters standing slightly further apart, the way people do near water.</p>
+    <p>This is the hour of the second self, the one who does not appear at meetings. The one with the notebook. The one who knows what you actually think about the big questions, and is amused by what you said at lunch.</p>
+    <p>Let that one drive for a while.</p>
+    <p>The night is long and mostly kind, whatever its reputation. Most of its monsters turn out to be coats on chairs. Most. Goodnight is not for hours yet.</p>
+  </article>
+
+  <article data-band="deepnight">
+    <p>It is late. The page knows, and has thinned its voice so as not to wake the house.</p>
+    <p>This is the hour that belongs to no schedule. Whoever is awake now is awake for a real reason: a fever, a deadline, a heart doing arithmetic, a book that refused to stop. The night does not ask which. It just makes room.</p>
+    <p>Listen. The fridge, the radiator, the one car three streets over. The house has a pulse you can only take at this hour, with the day's hand finally off its wrist.</p>
+    <p>Whatever brought you here, the rule of the deep hours is: no verdicts. Nothing decided after midnight counts double in the morning. Mostly it counts half.</p>
+    <p>Drink some water. The page will hold your place in the dark. It has nowhere else to be.</p>
+  </article>
+
+  <article data-band="wolf">
+    <p>So. You found the hour they named after the wolf.</p>
+    <p>The page can barely hold its letters together this late, you can see them drifting apart, and it will not pretend otherwise. Three and four in the morning are the unedited hours. Everything true and untrue arrives at the same volume and wearing the same coat.</p>
+    <p>Here is what the page knows, for whatever a page knows: every fear available at this hour is real, and none of them are the right size. They are all printed at four hundred percent. The morning is the only machine that scales them back, and the morning is already being assembled, gulls first, then the grey, then the brick.</p>
+    <p>You do not have to sleep. You only have to wait, and waiting can be done lying down, breathing, owning nothing, deciding nothing.</p>
+    <p>The light is coming. It has never once arrived in the wrong place.</p>
+  </article>
+
+  <p class="notyours">This is not your hour. You are a visitor here.<button id="returnBtn">return to now</button></p>
+
+  <div class="dial" id="dial">
+    <span>the eight hours · you are the filled one</span>
+  </div>
+
+  <footer>Open this file at a different hour and a different book is here. There are eight. Nobody sees them all in one sitting. That is the point.</footer>
+</main>
+
+<script>
+const bands = [
+  {key:'firstlight', label:'first light', from:5,  to:7,  word:'first light'},
+  {key:'morning',    label:'morning',     from:7,  to:11, word:'morning'},
+  {key:'midday',     label:'midday',      from:11, to:14, word:'midday'},
+  {key:'afternoon',  label:'afternoon',   from:14, to:17, word:'the long afternoon'},
+  {key:'evening',    label:'evening',     from:17, to:20, word:'evening'},
+  {key:'nightfall',  label:'nightfall',   from:20, to:23, word:'nightfall'},
+  {key:'deepnight',  label:'deep night',  from:23, to:26, word:'the deep night'}, // 23,0,1
+  {key:'wolf',       label:'the wolf',    from:2,  to:5,  word:'the hour of the wolf'}
+];
+
+function currentBand(){
+  let h = new Date().getHours();
+  const h2 = (h === 0 || h === 1) ? h + 24 : h; // fold 00:00–01:59 into deep night
+  for(const b of bands){
+    if(h2 >= b.from && h2 < b.to) return b;
+  }
+  return bands[7]; // 2–5 fallback: the wolf
+}
+
+const trueBand = currentBand();
+let shown = trueBand;
+
+function render(band){
+  shown = band;
+  document.body.className = 'h-' + band.key + (band.key !== trueBand.key ? ' visiting' : '');
+  document.querySelectorAll('article').forEach(a=>{
+    a.classList.toggle('now', a.dataset.band === band.key);
+  });
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  document.getElementById('clockline').textContent =
+    band.key === trueBand.key
+      ? 'It is ' + hh + ':' + mm + ' where you are. This chapter exists only in ' + band.word + '.'
+      : 'You are visiting ' + band.word + '. It is actually ' + hh + ':' + mm + '.';
+  document.querySelectorAll('.dial button').forEach(btn=>{
+    btn.classList.toggle('here', btn.dataset.band === band.key);
+  });
+}
+
+const dial = document.getElementById('dial');
+bands.forEach(b=>{
+  const btn = document.createElement('button');
+  btn.dataset.band = b.key;
+  btn.setAttribute('aria-label', b.label);
+  btn.title = b.label;
+  btn.addEventListener('click', ()=>render(b));
+  dial.appendChild(btn);
+});
+
+document.getElementById('returnBtn').addEventListener('click', ()=>render(trueBand));
+
+render(trueBand);
+
+// if you read across a band border, the book turns its own page
+setInterval(()=>{
+  const fresh = currentBand();
+  if(fresh.key !== trueBand.key && shown.key === trueBand.key){
+    location.reload();
+  }
+}, 60000);
+</script>
+</body>
+</html>

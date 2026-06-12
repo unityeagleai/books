@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weather Permitting — a novel that asks your sky</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,200..600,0..100;1,9..144,200..600,0..100&family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+body{
+  font-family:'Newsreader',Georgia,serif;
+  font-weight:300;font-size:1.15rem;line-height:1.8;
+  transition:background 1.6s ease,color 1.6s ease;
+  background:var(--bg,#14151a);color:var(--ink,#d6d1c4);
+}
+
+/* one climate per class */
+body.clear{--bg:#f2ecdc;--ink:#2b2722;--acc:#b06a2a;--dim:#97917f}
+body.clear.night{--bg:#0e1322;--ink:#d8d6c8;--acc:#d8b56a;--dim:#6a7080}
+body.overcast{--bg:#c8cbc7;--ink:#2e3230;--acc:#5e6a64;--dim:#7d837e}
+body.overcast.night{--bg:#1a1d1c;--ink:#c3c8c4;--acc:#8a968f;--dim:#5e6460}
+body.fog{--bg:#e3e4e0;--ink:#5d615d;--acc:#7d837d;--dim:#a3a7a1}
+body.fog.night{--bg:#16181a;--ink:#8b9090;--acc:#a8aeae;--dim:#4f5454}
+body.rain{--bg:#28333d;--ink:#c5cfd6;--acc:#7fa3b8;--dim:#5f7280}
+body.storm{--bg:#121317;--ink:#cfc8b8;--acc:#d9963f;--dim:#5c5950}
+body.snow{--bg:#f3f5f7;--ink:#3a4148;--acc:#8fa6b8;--dim:#9aa6ae}
+body.snow.night{--bg:#10141a;--ink:#cdd4da;--acc:#9db4c6;--dim:#5a6670}
+
+/* ambient sky layers */
+#sky{position:fixed;inset:0;pointer-events:none;z-index:1;opacity:0;transition:opacity 2s ease}
+body.rain #sky, body.storm #sky{
+  opacity:.5;
+  background:repeating-linear-gradient(78deg, transparent 0 7px, rgba(160,190,210,.16) 7px 8px);
+  background-size:200% 200%;
+  animation:fall .7s linear infinite;
+}
+body.storm #sky{opacity:.65;animation-duration:.45s}
+@keyframes fall{from{background-position:0 0}to{background-position:-60px 160px}}
+body.snow #sky{
+  opacity:.8;
+  background-image:radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,.8), transparent 60%),
+                   radial-gradient(2px 2px at 70% 60%, rgba(255,255,255,.6), transparent 60%),
+                   radial-gradient(1.5px 1.5px at 45% 80%, rgba(255,255,255,.7), transparent 60%);
+  background-size:220px 220px, 300px 300px, 180px 180px;
+  animation:snowdrift 11s linear infinite;
+}
+body.snow.night #sky{opacity:.5}
+@keyframes snowdrift{from{background-position:0 -220px,0 -300px,0 -180px}to{background-position:30px 220px,-40px 300px,20px 180px}}
+body.fog #sky{
+  opacity:.9;
+  background:linear-gradient(110deg, transparent 20%, rgba(255,255,255,.22) 45%, transparent 70%);
+  background-size:300% 100%;
+  animation:fogroll 16s ease-in-out infinite alternate;
+}
+body.fog.night #sky{background:linear-gradient(110deg, transparent 20%, rgba(170,180,180,.10) 45%, transparent 70%);background-size:300% 100%}
+@keyframes fogroll{from{background-position:0% 0}to{background-position:100% 0}}
+
+main{position:relative;z-index:2;max-width:33rem;margin:0 auto;padding:0 1.4rem 6rem}
+
+/* cover */
+#cover{min-height:94vh;display:flex;flex-direction:column;justify-content:center}
+.press{font-family:'Fraunces',serif;font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;color:var(--acc,#d9963f);margin-bottom:2rem}
+#cover h1{font-family:'Fraunces',serif;font-weight:320;font-variation-settings:'SOFT' 90,'opsz' 144;font-size:clamp(2.8rem,13vw,4.4rem);line-height:1.05;margin-bottom:1.3rem}
+.sub{color:var(--dim,#5c5950);font-style:italic;line-height:1.7}
+#lookup{margin-top:2.6rem;background:none;border:1px solid var(--acc,#d9963f);border-radius:2rem;color:var(--acc,#d9963f);font:300 1.05rem 'Newsreader',serif;padding:.7rem 1.9rem;cursor:pointer;align-self:flex-start}
+.tiny{margin-top:1.2rem;color:var(--dim,#5c5950);font-size:.85rem;font-style:italic}
+#manual{margin-top:2.2rem;display:none;flex-wrap:wrap;gap:.6rem}
+#manual button{background:none;border:1px solid var(--dim,#5c5950);border-radius:2rem;color:var(--ink,#d6d1c4);font:300 .92rem 'Newsreader',serif;padding:.45rem 1.1rem;cursor:pointer}
+
+/* book */
+#book{display:none}
+#skyline{
+  font-family:ui-monospace,Menlo,monospace;
+  font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--acc);padding-top:5rem;margin-bottom:3.5rem;line-height:1.9;
+}
+h2{font-family:'Fraunces',serif;font-weight:380;font-size:1.7rem;color:var(--acc);margin:4.5rem 0 1.4rem;line-height:1.2}
+#book p{margin-bottom:1.3rem}
+.intro{font-style:italic;color:var(--dim)}
+.fin{margin-top:6rem;text-align:center;color:var(--dim);font-style:italic;font-size:.95rem;line-height:1.9}
+.fin .mark{display:block;color:var(--acc);font-family:'Fraunces',serif;font-style:normal;font-size:1.4rem;margin-bottom:1rem}
+#again{background:none;border:none;color:var(--acc);font:italic 300 .95rem 'Newsreader',serif;border-bottom:1px solid var(--acc);cursor:pointer;padding:0;margin-top:1rem}
+</style>
+</head>
+<body class="storm">
+<div id="sky"></div>
+<main>
+
+<div id="cover">
+  <div class="press">a novel that asks your sky</div>
+  <h1>Weather Permitting</h1>
+  <p class="sub">There is a kiosk at the end of a pier, and a man who opens it every single day, because of something Ada said when she left. This book has six versions. The weather over your head right now decides which one you get. If it is raining on you, it rains on the pier.</p>
+  <button id="lookup">look up</button>
+  <p class="tiny">It asks your location once, only to ask the sky, and keeps nothing. Refuse, and you may choose a sky by hand, but the honest version is the one that asks.</p>
+  <div id="manual"></div>
+</div>
+
+<div id="book">
+  <div id="skyline"></div>
+  <div id="text"></div>
+  <div class="fin">
+    <span class="mark">~</span>
+    <span id="finnote"></span><br>
+    <button id="again">read it under a different sky</button>
+  </div>
+</div>
+
+</main>
+
+<script>
+const INTRO = `Ada said: I will come back when the weather is right. She said it at the land end of the pier with her bag already on her shoulder, and then she did the unforgivable thing, she did not say which weather. That was nine years ago. So I open the kiosk every day in everything, because any morning could be the one she meant, and a man who narrows it down is a man who has decided to stop waiting. Today, the sky over you is the sky over the pier. Here is how the day went.`;
+
+const BOOKS = {
+clear:{
+  line:'a sky with nothing to declare',
+  ch:[
+   ['Opening',`Seven o'clock and the light comes straight off the sea with its sleeves rolled, filing everything to its edges. No haze, no negotiation. Ada called days like this shadowless interrogations, you could not even keep your thoughts in the shade. I unbolt the hatch, set the chairs, point Beatrix the coffee machine at the horizon and let her steam at it. If this is the weather she meant, she will come in squinting, one hand up, the way people arrive out of too much truth.`],
+   ['Midmorning',`The sea is counting itself in silver and getting a different answer every time. Gulls hang in the blue like punctuation waiting for a sentence. By ten the pier has tourists on it, walking the planks in that loose ceremonial way people walk over water, and every tenth one buys a coffee and asks me if it is always this beautiful, and I say no, with feeling, and they laugh and I do not.`],
+   ['Theo',`Theo fishes off the north rail every day God sends, and on clear days he catches nothing and says so in advance. Fish are not idiots, he says, they can see the hook's intentions from a meter down. He stays his hour anyway. Today he watched the horizon with me a while and said, not unkindly, you can see fifteen kilometers today, and she is not in any of them. That is the thing about Theo. He says the rent out loud.`],
+   ['Afternoon',`Maybe she meant clear as in settled. Clear as in: when I can see my way. The afternoon held its blue note so long I stopped hearing it. Four coffees, one ice lolly to a child who paid in coins so warm they must have been held the whole way down the pier, and the horizon behaving, perfectly, all day, like a witness who has rehearsed.`],
+   ['Closing',`The sun went down administratively, on time, no comment, a full receipt of a day. When I came around the kiosk to stack the chairs there were sunglasses on the bench by the rail, one arm open, lenses to the sea, as if someone had just set them down to look at something with their own eyes. Sixty meters of empty pier in the after-light. I left them where they were. I will open tomorrow.`]
+  ],
+  fin:'You read the clear-day version. There are five other skies, and the pier is under all of them.'
+},
+overcast:{
+  line:'a lid on the sky, grey with practice',
+  ch:[
+   ['Opening',`The sky came down overnight and put its lid on, that practiced Dutch grey that is not one color but a committee of them. Ada liked grey. The color of thinking, she said, a clear day tells you everything and grey lets you finish your own sentences. I unbolt the hatch. The sea and the sky have agreed on a seam and are pretending not to know where it is.`],
+   ['Midmorning',`On days like this the horizon resigns. The boats out there float in nothing, stitched to the world only by their engines' low sentences. Sound carries differently under cloud, flatter and nearer, I can hear the harbor clock from two kilometers as if it were in my coat. Few tourists. The ones who come are the serious kind, walkers, who nod at me like colleagues in the business of being out here anyway.`],
+   ['Theo',`Grey is honest fishing, Theo says, nobody is performing, not the light, not the water, not him. He caught two whiting before nine and held each one up to me across the planks like evidence in a trial going well. Under cloud the regulars talk more. The grey takes the glare off people too. Mrs. Adema told me forty minutes about her sister in Canada, and the sky held the whole story without once interrupting.`],
+   ['Afternoon',`Maybe she meant this. Not the grey itself but the first grey after a run of bright days, the relief of it, the permission. She used to come back from anywhere quieter than she left. The afternoon stayed level as a held breath. I drank my own coffee at the rail for once, facing out, and let the seam between sea and sky stay lost.`],
+   ['Closing',`At six a gap opened in the cloud, one coin of light, and it moved across the water toward the pier with the slow purpose of something sent. It closed again maybe fifty meters out. When I rinsed up I found two cups warm on the shelf, and I have gone over the day twice now, and I only remember pouring one.`]
+  ],
+  fin:'You read the grey version. There are five other skies, and the pier is under all of them.'
+},
+fog:{
+  line:'the pier disappears in installments',
+  ch:[
+   ['Opening',`Fog this morning, the real kind, the kind with opinions. The pier disappears in installments, ten planks, then six, then an honest four. I open the kiosk inside a cloud and ring the little brass bell over the hatch, which is not for customers, whatever I tell them. Ada loved fog the way some people love being slightly lost in their own city. Everything in fog is approaching, she said. Nothing in fog has left.`],
+   ['Midmorning',`Sounds arrive without their owners. A bicycle bell from the promenade, a dog's tags, somewhere a halyard going against a mast like a slow clock. The foghorn out at the head clears its throat every ninety seconds, and between its sentences the white leans in. I sold one coffee to a pair of hands and a kind voice, and the rest of the person I took on faith.`],
+   ['Theo',`Theo assembled himself out of the white at arm's length, hat first, and took up his post by feel. Fishing in fog is prayer, he said, you make your case to the water and accept that you will not see the answer coming. We spoke in sonar all morning, short sentences with pauses to hear if the other was still there. He was always still there. That is most of what a friend is.`],
+   ['Afternoon',`In fog, every figure is her until it is not. Today that was twelve people before lunch, twelve postures coming gradually true, a tall man, a woman with a stroller, a runner sweating like he owed it money. The heart does the lifting anyway, every single time, it has never once learned, and I have stopped asking it to. Maybe this is the weather she meant. Weather you can come back inside of, unobserved, almost home before anyone can make a fuss.`],
+   ['Closing',`At dusk, footsteps came down the planks, unhurried, familiar somewhere in the ankle of them, and stopped at the rail just past where seeing ends. The fog held a shape there a while, the size of someone, the patience of someone. Then the horn sounded and the shape went back into the general white. I poured a second cup anyway and set it on the hatch shelf, steaming. Steam, at least, knows how to arrive.`]
+  ],
+  fin:'You read the fog version. There are five other skies, and the pier is under all of them.'
+},
+rain:{
+  line:'rain, taking the pier personally',
+  ch:[
+   ['Opening',`Rain on the kiosk roof since before light, and I know its registers by now, drizzle is gossip, showers are argument, and this steady vertical stuff is testimony. I open anyway. Rain is the weather that takes the pier personally, it goes after the planks, the rail, the bell, item by item, like it has a list. The sea barely looks up. The sea considers rain a colleague.`],
+   ['Midmorning',`The tourists evaporate in rain, which is a joke I keep meaning to tell Theo. The pier empties to its essentials and gives off its true smell, tar and salt and 1962. The surface of the sea is pocked like hammered tin. I stood in the hatch with my hands around a cup watching the rain stitch the air to the water, and the morning passed through me like weather itself.`],
+   ['Theo',`Theo under his vast green umbrella, rod out, entirely content. Fish bite in rain, he says, every time, like a man laying down a winning card. Something about the surface breaking up, they get brave. He caught four. Each time he looked back at me through the rain and raised the fish slightly, and I raised my cup, and that was the whole conversation, and it was plenty.`],
+   ['Afternoon',`Ada loved rain past all sense. She would stand out in it like an argument she was winning, coat open, daring it. People who wait indoors for rain to stop, she said, die waiting in other ways too. So rain is the strong candidate, it has been the strong candidate for nine years. But she loved it too much, that is my fear. You do not use your favorite weather as a signal. You save it.`],
+   ['Closing',`At closing there was an umbrella leaning against the hatch, black, furled, dry inside its folds, only just put down. I do not own an umbrella. I have never sold one. Sixty meters of streaming, empty pier in both directions and the rain changing registers overhead, testimony to argument to gossip. I locked up as slowly as the locks allow, and I left the hatch light on, and the light stood out in the rain like a held door.`]
+  ],
+  fin:'You read it in the rain, which Ada would respect. Five other skies exist, and the pier is under all of them.'
+},
+storm:{
+  line:'storm, the sea reclaiming the lease',
+  ch:[
+   ['Opening',`A man should not open a kiosk in this. I have a permit and a grudge, so I open it. The sea is coming over the rail at the far end in long white tantrums and the wind is reading the pier its rights. Beatrix steams defiance. Every flag on the promenade is straight out and screaming, and the gulls have all gone inland to wait it out like sensible cowards.`],
+   ['Midmorning',`Nobody comes. Of course nobody comes. The pier flexes under the big sets, an honest old creak from down in its knees, the sea taking its property back one timber at a time and the pier filing objections. I hold the fort because a fort that is only held in good weather is a café. Spray reaches the kiosk glass even here, mid-pier, and slides down it sideways. The morning is magnificent and useless, like most magnificent things.`],
+   ['Theo',`Theo came. No rod. He stood inside the hatch shoulder to shoulder with me, dripping, and we watched the sea lose its temper at everything it has ever made. Storms are church, Theo says. You do not attend to ask for anything. You attend to be reminded of the size of what you are not. He drank two coffees and shouted no part of any conversation, and left soaked and somehow rested.`],
+   ['Afternoon',`If she meant a storm, she meant arrival as event, doors banging, hair like seaweed, the whole orchestra. That would be like her, the early her. But storms are also what she left in, that is the other thing I carry, the ferry pitching at the harbor mouth and her on it. Maybe storms are not a signal either way. Maybe they are just the sky having its own day, indifferent to our appointments.`],
+   ['Closing',`At four the harbor master rang and ordered me off, no arguments, and for once I gave him none. Walking in with the wind behind me I was faster than I have been in twenty years, pushed home like a boy by a big hand. And at the land end, the gate stood unlatched and swinging, open, open, though I locked it at seven the way I have locked it every morning of my working life. I stood in the screaming wind and looked back down the pier a long time. Nothing. Everything. I went home and did not sleep, and it was not the storm.`]
+  ],
+  fin:'You read the storm version, the loudest of the six. The pier survives them all, so far.'
+},
+snow:{
+  line:'snow, the sea refusing it, the pier accepting',
+  ch:[
+   ['Opening',`Snow, which a pier almost never gets to keep. The sea eats every flake that touches it, no ceremony, but the planks have held theirs, two centimeters of it, and the whole pier has gone out into the water wearing its one good suit. I opened late because I stood at the land end for ten minutes just looking, and I do not apologize for that to anyone.`],
+   ['Midmorning',`Silence with texture. The sea has been muffled down to breathing and the snow keeps coming in that unhurried way that has nothing to prove. The gulls are baffled, walking the rail like inspectors of an inexplicable audit. Three customers all morning, each of them grinning the same involuntary grin, snow on a pier, the sheer administrative error of it. I gave a hot chocolate away free, to keep my own grin company.`],
+   ['Theo',`Theo did not fish. He brought a thermos and stood at his post out of pure habit, and drew in the snow on the flat of the rail with one finger, slow shapes, going over them. From the hatch I could not see what they were. When he left, I walked over. A boat, drawn the way children draw boats, and a name under it I will not write here, his wife's, four winters gone. The snow was already softening it. Some things you are only allowed to see once.`],
+   ['Afternoon',`Snow is the sea's apology, Ada said once, the sky saying sorry on its behalf, since the sea has never apologized for anything. Snow is rare enough here to be a date, that is the case for it. You could say to someone, the first real snow, and both of you would know which day you meant for the rest of your lives. The flakes kept coming down evenhanded, on the kiosk, on the rail, on the drawn boat, on the black accepting water.`],
+   ['Closing',`By closing the planks held the whole day in writing. My prints, hatch to bench to rail. Theo's, post to gate. The gulls' cuneiform everywhere. And one line of prints coming up the pier from the land end that stopped halfway, mid-stride, clean, no turning marks, no scuffle, nothing, as if the snow had simply run out of someone. I stood with the keys cold in my hand long past dark. The snow kept falling on all of it, evenhanded, and I have decided to take that as the message: still coming. Delayed by weather. Keep the kiosk.`]
+  ],
+  fin:'You read the snow version, the rarest sky of the six. It falls on everything evenhandedly, including endings.'
+}
+};
+
+function wmoToState(code){
+  if(code === 0 || code === 1) return 'clear';
+  if(code === 2 || code === 3) return 'overcast';
+  if(code === 45 || code === 48) return 'fog';
+  if(code >= 95) return 'storm';
+  if((code >= 71 && code <= 77) || code === 85 || code === 86) return 'snow';
+  if((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return 'rain';
+  return 'overcast';
+}
+
+const cover = document.getElementById('cover');
+const book = document.getElementById('book');
+const skyline = document.getElementById('skyline');
+const textEl = document.getElementById('text');
+const manual = document.getElementById('manual');
+
+function render(state, meta){
+  document.body.className = state + (meta && meta.night ? ' night' : '');
+  const b = BOOKS[state];
+  skyline.innerHTML = (meta && meta.live
+    ? 'over you · ' + b.line + ' · ' + meta.temp + '°' + (meta.night ? ' · night' : '')
+    : 'a chosen sky · ' + b.line + ' · the honest version asks');
+  let html = '<p class="intro">' + INTRO + '</p>';
+  b.ch.forEach(c=>{ html += '<h2>' + c[0] + '</h2><p>' + c[1] + '</p>'; });
+  textEl.innerHTML = html;
+  document.getElementById('finnote').textContent = b.fin;
+  cover.style.display = 'none';
+  book.style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+function showManual(msg){
+  if(msg) document.querySelector('.tiny').textContent = msg;
+  manual.style.display = 'flex';
+  manual.innerHTML = '';
+  Object.keys(BOOKS).forEach(s=>{
+    const btn = document.createElement('button');
+    btn.textContent = s;
+    btn.addEventListener('click', ()=>render(s, {live:false}));
+    manual.appendChild(btn);
+  });
+}
+
+async function askTheSky(lat, lon){
+  const url = 'https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
+              '&current=temperature_2m,weather_code,is_day';
+  const res = await fetch(url);
+  if(!res.ok) throw new Error('sky unavailable');
+  const data = await res.json();
+  const c = data.current;
+  render(wmoToState(c.weather_code), {live:true, temp:Math.round(c.temperature_2m), night:!c.is_day});
+}
+
+document.getElementById('lookup').addEventListener('click', ()=>{
+  if(!navigator.geolocation){ showManual('This viewer will not look up. Choose a sky by hand.'); return; }
+  navigator.geolocation.getCurrentPosition(
+    pos => askTheSky(pos.coords.latitude, pos.coords.longitude)
+             .catch(()=>showManual('The sky did not answer. Choose one by hand.')),
+    ()  => showManual('No location, fair enough. Choose a sky by hand.'),
+    {timeout:10000, maximumAge:600000}
+  );
+});
+
+document.getElementById('again').addEventListener('click', ()=>{
+  book.style.display = 'none';
+  cover.style.display = 'flex';
+  document.body.className = 'storm';
+  showManual('Choose a sky, or look up again another day.');
+  window.scrollTo(0,0);
+});
+</script>
+</body>
+</html>

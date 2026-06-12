@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inconstant — a novel that obeys the moon</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,200..600,0..100;1,9..144,200..600,0..100&family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --sky:#0a0c14;
+  --ink:#d3d6dd;
+  --silver:#d8cfae;
+  --dim:#6b6f7c;
+  --litmoon:#e9e5d3;
+  --darkmoon:#20242f;
+}
+
+body{
+  background:var(--sky);
+  color:var(--ink);
+  font-family:'Newsreader',Georgia,serif;
+  font-weight:300;font-size:1.16rem;line-height:1.82;
+  transition:background 1.5s ease;
+}
+
+main{max-width:33rem;margin:0 auto;padding:10vh 1.4rem 5rem}
+
+.press{
+  font-family:'Fraunces',serif;font-size:.72rem;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--silver);margin-bottom:1.8rem;
+}
+h1{
+  font-family:'Fraunces',serif;font-weight:320;
+  font-variation-settings:'SOFT' 90,'opsz' 144;
+  font-size:clamp(2.8rem,13vw,4.4rem);line-height:1.05;margin-bottom:2.2rem;
+}
+
+/* the moon itself */
+#moonrow{display:flex;align-items:center;gap:1.4rem;margin-bottom:.9rem}
+.moon{
+  position:relative;width:84px;height:84px;border-radius:50%;
+  background:var(--darkmoon);overflow:hidden;flex:none;
+  box-shadow:0 0 26px rgba(233,229,211,.10), inset 0 0 12px rgba(0,0,0,.5);
+}
+.moon i{position:absolute;inset:0;border-radius:50%;display:none}
+.moon .lit{background:var(--litmoon)}
+.moon .bump{background:var(--litmoon);clip-path:ellipse(30% 51% at 50% 50%)}
+.moon .bite{background:var(--darkmoon);clip-path:ellipse(30% 51% at 50% 50%)}
+/* phase classes */
+.moon.p4 .lit{display:block}                                            /* full */
+.moon.p2 .lit{display:block;clip-path:inset(0 0 0 50%)}                 /* first quarter */
+.moon.p6 .lit{display:block;clip-path:inset(0 50% 0 0)}                 /* last quarter */
+.moon.p3 .lit{display:block;clip-path:inset(0 0 0 50%)}                 /* waxing gibbous */
+.moon.p3 .bump{display:block}
+.moon.p5 .lit{display:block;clip-path:inset(0 50% 0 0)}                 /* waning gibbous */
+.moon.p5 .bump{display:block}
+.moon.p1 .lit{display:block;clip-path:inset(0 0 0 50%)}                 /* waxing crescent */
+.moon.p1 .bite{display:block}
+.moon.p7 .lit{display:block;clip-path:inset(0 50% 0 0)}                 /* waning crescent */
+.moon.p7 .bite{display:block}
+
+#moonmeta{
+  font-family:ui-monospace,Menlo,monospace;
+  font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--silver);line-height:2;
+}
+#borrowed{color:var(--dim);font-style:italic;font-size:.9rem;margin-bottom:2.6rem;font-family:'Newsreader',serif;letter-spacing:0;text-transform:none;display:none}
+
+.intro{color:var(--dim);font-style:italic;margin:2.2rem 0 3rem;line-height:1.8}
+
+#account p{margin-bottom:1.35rem}
+#account .said{color:var(--silver)}
+
+/* page legibility waxes with the moon */
+#account{transition:opacity 1.4s ease}
+
+.dial{margin-top:5.5rem;border-top:1px solid #191c26;padding-top:1.6rem}
+.dial .label{
+  font-family:'Fraunces',serif;font-size:.68rem;letter-spacing:.26em;
+  text-transform:uppercase;color:var(--dim);margin-bottom:1.1rem;
+}
+.dial .moons{display:flex;gap:.8rem;flex-wrap:wrap}
+.dial button{
+  width:30px;height:30px;border-radius:50%;border:1px solid #2a2e3a;
+  background:var(--darkmoon);position:relative;overflow:hidden;cursor:pointer;padding:0;
+}
+.dial button i{position:absolute;inset:0;border-radius:50%;display:none}
+.dial button .l{background:var(--litmoon)}
+.dial button .bp{background:var(--litmoon);clip-path:ellipse(30% 51% at 50% 50%)}
+.dial button .bt{background:var(--darkmoon);clip-path:ellipse(30% 51% at 50% 50%)}
+.dial button.tonight{box-shadow:0 0 0 2px var(--silver)}
+.dial button:focus-visible{outline:2px solid var(--silver);outline-offset:3px}
+
+.fin{margin-top:4.5rem;color:var(--dim);font-style:italic;font-size:.93rem;line-height:1.9;text-align:center}
+.fin .mark{display:block;color:var(--silver);font-family:'Fraunces',serif;font-style:normal;font-size:1.3rem;margin-bottom:.9rem}
+</style>
+</head>
+<body>
+<main>
+
+<div class="press">a novel that obeys the moon</div>
+<h1>Inconstant</h1>
+
+<div id="moonrow">
+  <div class="moon" id="bigmoon"><i class="lit"></i><i class="bump"></i><i class="bite"></i></div>
+  <div id="moonmeta"></div>
+</div>
+<p id="borrowed">You are reading under a borrowed moon. Tonight's is the ringed one below.</p>
+
+<p class="intro">One night, July, the lake, the year we were seventeen. I have been telling it to myself for forty years and the telling obeys the moon. I have checked. I keep records. What follows is tonight's version, and it is not the same book you would be holding next week, and neither version is lying, exactly. The moon does not lie. It just never shows you all of anything at once.</p>
+
+<div id="account"></div>
+
+<div class="dial">
+  <div class="label">the eight moons · tonight's is ringed</div>
+  <div class="moons" id="dialmoons"></div>
+</div>
+
+<div class="fin">
+  <span class="mark">~</span>
+  <span id="finline"></span>
+</div>
+
+</main>
+
+<script>
+const PHASES = [
+  {n:'New Moon', name:'new moon'},
+  {n:'Waxing Crescent', name:'waxing crescent'},
+  {n:'First Quarter', name:'first quarter'},
+  {n:'Waxing Gibbous', name:'waxing gibbous'},
+  {n:'Full Moon', name:'full moon'},
+  {n:'Waning Gibbous', name:'waning gibbous'},
+  {n:'Last Quarter', name:'last quarter'},
+  {n:'Waning Crescent', name:'waning crescent'}
+];
+
+const TEXTS = [
+/* 0 new */
+`<p>No light tonight, so I will claim almost nothing.</p>
+<p>There was a lake. We were seventeen. Ines could whistle through her fingers, a sound like a key turning in the whole evening. Bicycles were involved, and water that held us, and something was said out on the raft that I have spent a working lifetime trying to keep.</p>
+<p>Tonight I cannot see her face and I refuse to invent one. That is what the dark is for, I think. Once a month the moon takes the whole story back and leaves me only what is actually mine: a lake, a whistle, the fact of having been there.</p>
+<p>It is not nothing. On some nights it is the truest version I own.</p>`,
+/* 1 waxing crescent */
+`<p>A sliver tonight, enough to find the path but not the faces.</p>
+<p>The gravel comes back first, the sound of two bicycles on the lane behind the campsite, and the hedge that always grabbed at sleeves. Her bike was dark, green or blue, the sliver will not say. We left them against the fence without locking them because it was that kind of summer and we were that kind of seventeen.</p>
+<p>The water is there now too, at the edge of the light, black and certain of itself. Somebody whistled. I believe it was her. The rest of the night stands just outside the crescent, waiting to be earned back, a few details per night, the moon paying out the story like rope.</p>`,
+/* 2 first quarter */
+`<p>Half tonight. The moon is exact about it, a coin cut clean, and the night comes back to its waist.</p>
+<p>We swam out to the raft, that is solid now, the warm top of the water and the cold band underneath that grabbed our ankles like the lake's actual opinion. Far off on the south shore a party was playing a song I half knew. A dog barked twice. Her bike was green. I am promoted to green tonight.</p>
+<p>And on the raft, lying back, both of us breathing hard, she said something. I have the front half of it. She said: <span class="said">Say it back to me in winter</span>, and the rest hangs past the terminator, in the dark side of the sentence, and no amount of squinting brings it over.</p>
+<p>Half a moon, half a vow. The arithmetic of this book is not kind.</p>`,
+/* 3 waxing gibbous */
+`<p>Nearly all of it tonight, and the night arrives almost faster than I trust.</p>
+<p>The lane, the hedge, the green bike with the crooked basket, the whistle through wet fingers, the warm lid of the lake over that cold disagreeing layer, the song from the south shore that I now know was being sung badly by many people at once, the dog, the raft's old boards still holding the day's heat under our shoulder blades.</p>
+<p>And the sentence is nearly whole. She said: <span class="said">Say it back to me in winter and I'll</span>, and there it stops, one word out in the dark still, maybe two. Our hands were near on the boards. I think our hands. The gibbous moon is generous and I have learned to be careful exactly when the story starts being generous back.</p>
+<p>Tomorrow or the day after, the whole thing. I half dread it. Full means full.</p>`,
+/* 4 full */
+`<p>Floodlit. The whole night is on the table tonight and I will set it down as it shines.</p>
+<p>The moon that July night was full too, enormous, low over the water like something that had come to watch. We rode out at one in the morning, Ines ahead, standing on the pedals, the green bike with the crooked basket ticking like a glad insect. She whistled through her fingers at the dark farms and the dark farms held their breath.</p>
+<p>The water took us warm, then cold at the ankles, and we swam the eighty meters to the raft laughing at nothing, at everything, at being exactly who and when we were. We lay on the boards. The party on the south shore was singing. The dog barked twice and gave up. And she turned her head, hair stuck to her cheek in a question mark, and said, every word of it: <span class="said">Say it back to me in winter and I'll believe you.</span></p>
+<p>And our hands were not near. They were held. That is the full version and I am telling you the full version holds nothing back: it was the happiest hour of my life and I did not say it back in winter, and the moon tonight is bright enough to read both of those sentences at once.</p>
+<p>Believe this account. Just know that it shines once a month, and shining is its job.</p>`,
+/* 5 waning gibbous */
+`<p>It has started giving things back to the dark. I can feel the night thinning at the edges.</p>
+<p>The lane, the lake, the raft, all still here. The sentence is still nearly whole: <span class="said">Say it back to me in winter and I'll</span>, and tonight the last word will not come, and I lay here last week swearing I had it. The dog I am suddenly unsure of. One bark or two, or a different night's dog entirely, dogs are where stories go to borrow.</p>
+<p>The hands I am keeping. Whatever the moon does on its way down, the hands stay held, I have decided that is mine and not the light's.</p>
+<p>This is the melancholy quarter of the month, the proofreading of the dream. Everything still legible. Nothing still safe.</p>`,
+/* 6 last quarter */
+`<p>Half again, the coin cut clean, but it is the other half this time. The moon does not give back what it took. It gives back something else.</p>
+<p>Tonight I have lost the front of the sentence and own its ending. She said: <span class="said">and I'll believe you.</span> Believe what? Believe whom, saying what, in which winter. The promise has come apart in the middle like wet paper and I am holding the half with her trust in it and not the half with my instructions.</p>
+<p>The bike is dark again, green or blue. The dog is gone entirely. The cold layer under the warm is still down there, I trust that one because my ankles remember it without any light at all.</p>
+<p>First quarter and last quarter are the same moon, people think. They have never had to read by both.</p>`,
+/* 7 waning crescent */
+`<p>Almost nothing tonight, and not the same nothing the month began with.</p>
+<p>What waning leaves is not what waxing brought. The path is gone, the raft is gone, the sentence is gone front and back. What is left, tonight, is the whistle. Two wet fingers, a sound like a key turning in the whole evening, and the lake going quiet to hear it.</p>
+<p>And one more thing the crescent will allow: the feeling on the ride home, four in the morning, the sky going grey at its hem, of carrying something enormous and weightless, like a man bringing home an empty crate that had recently held the moon.</p>
+<p>Tomorrow the dark takes the rest. Then it all begins arriving again, gravel first. I have done this five hundred times. I will do it as long as the arithmetic holds, and the arithmetic, unlike me, holds.</p>`
+];
+
+const FINS = [
+ 'You read it at new moon, the sparest and maybe truest of the eight. The story starts arriving again tomorrow.',
+ 'You read it waxing crescent, the story being paid back out, a few details per night.',
+ 'You read it at first quarter, half a moon and the front half of a vow.',
+ 'You read it waxing gibbous, nearly everything, trust accordingly.',
+ 'You read it at full moon, the brightest and least reliable of the eight. It is also the only version with the ending in it.',
+ 'You read it waning gibbous, the proofreading of the dream.',
+ 'You read it at last quarter, the other half. The two quarters never agree on which half matters.',
+ 'You read it waning crescent. What waning leaves is not what waxing brought.'
+];
+
+// moon arithmetic: synodic month from a known new moon (2000-01-06 18:14 UTC)
+const SYNODIC = 29.53058867;
+const EPOCH = Date.UTC(2000, 0, 6, 18, 14) ;
+function moonAge(date){
+  const days = (date.getTime() - EPOCH) / 86400000;
+  return ((days % SYNODIC) + SYNODIC) % SYNODIC;
+}
+function phaseIndex(age){
+  return Math.round(age / SYNODIC * 8) % 8;
+}
+function illumination(age){
+  return Math.round((1 - Math.cos(2 * Math.PI * age / SYNODIC)) / 2 * 100);
+}
+
+const now = new Date();
+const age = moonAge(now);
+const tonight = phaseIndex(age);
+let showing = tonight;
+
+const bigmoon = document.getElementById('bigmoon');
+const meta = document.getElementById('moonmeta');
+const account = document.getElementById('account');
+const finline = document.getElementById('finline');
+const borrowed = document.getElementById('borrowed');
+
+function render(i){
+  showing = i;
+  bigmoon.className = 'moon p' + i;
+  account.innerHTML = TEXTS[i];
+  finline.textContent = FINS[i];
+  // legibility waxes and wanes a little with the light
+  const dist = Math.min(Math.abs(i - 4), 8 - Math.abs(i - 4)); // 0 at full, 4 at new
+  account.style.opacity = (1 - dist * 0.045).toFixed(3);
+  if(i === tonight){
+    meta.innerHTML = PHASES[i].n + '<br>' + illumination(age) + '% lit · day ' + Math.floor(age) + ' of 29<br>computed, not asked';
+    borrowed.style.display = 'none';
+  }else{
+    meta.innerHTML = PHASES[i].n + '<br>a borrowed moon';
+    borrowed.style.display = 'block';
+  }
+  document.querySelectorAll('.dial button').forEach((b,bi)=>{
+    b.classList.toggle('tonight', bi === tonight);
+  });
+}
+
+const dial = document.getElementById('dialmoons');
+PHASES.forEach((p,i)=>{
+  const btn = document.createElement('button');
+  btn.title = p.name;
+  btn.setAttribute('aria-label', p.name);
+  btn.className = 'p' + i;
+  btn.innerHTML = '<i class="l '+(i?'':'')+'"></i><i class="bp"></i><i class="bt"></i>';
+  // reuse big-moon clipping via inline styles
+  const l = btn.querySelector('.l'), bp = btn.querySelector('.bp'), bt = btn.querySelector('.bt');
+  const show = (el,clip)=>{el.style.display='block'; if(clip) el.style.clipPath=clip;};
+  if(i===4) show(l);
+  if(i===2) show(l,'inset(0 0 0 50%)');
+  if(i===6) show(l,'inset(0 50% 0 0)');
+  if(i===3){show(l,'inset(0 0 0 50%)');show(bp);}
+  if(i===5){show(l,'inset(0 50% 0 0)');show(bp);}
+  if(i===1){show(l,'inset(0 0 0 50%)');show(bt);}
+  if(i===7){show(l,'inset(0 50% 0 0)');show(bt);}
+  btn.addEventListener('click', ()=>render(i));
+  dial.appendChild(btn);
+});
+
+render(tonight);
+</script>
+</body>
+</html>

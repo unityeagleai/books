@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unstable Editions — books that do things to their readers</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,200..600,0..100;1,9..144,200..600,0..100&family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --shelf:#0e0e14;
+  --ink:#d6d1c4;
+  --dim:#76705f;
+  --hairline:#23232e;
+}
+
+body{
+  background:var(--shelf);
+  color:var(--ink);
+  font-family:'Newsreader',Georgia,serif;
+  font-weight:300;
+  font-size:1.1rem;
+  line-height:1.75;
+}
+
+main{max-width:33rem;margin:0 auto;padding:14vh 1.5rem 6rem}
+
+.press{
+  font-family:'Fraunces',serif;
+  font-size:.72rem;letter-spacing:.34em;text-transform:uppercase;
+  color:var(--dim);margin-bottom:1.6rem;
+}
+h1{
+  font-family:'Fraunces',serif;
+  font-weight:320;font-variation-settings:'SOFT' 90,'opsz' 144;
+  font-size:clamp(2.6rem,12vw,4rem);
+  line-height:1.05;margin-bottom:1.2rem;
+}
+.sub{color:var(--dim);font-style:italic;margin-bottom:5rem}
+
+.book{
+  display:block;
+  text-decoration:none;
+  color:inherit;
+  padding:2rem 0;
+  border-top:1px solid var(--hairline);
+}
+.book:last-of-type{border-bottom:1px solid var(--hairline)}
+.book h2{
+  font-family:'Fraunces',serif;
+  font-weight:380;font-size:1.6rem;line-height:1.2;
+  margin-bottom:.45rem;
+  transition:color .3s ease;
+}
+.book:hover h2{color:#fff}
+.book .warn{color:var(--dim);font-style:italic;font-size:.98rem}
+.book .hue{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:.6rem;vertical-align:1px}
+
+.colophon{
+  margin-top:5rem;color:var(--dim);font-style:italic;font-size:.92rem;line-height:1.9;
+}
+</style>
+</head>
+<body>
+<main>
+
+  <div class="press">unstable editions</div>
+  <h1>Books that do things to their readers</h1>
+  <p class="sub">Five novels built for the phone in your hand. Each one misbehaves in exactly one way. Read them somewhere quiet.</p>
+
+  <a class="book" href="tangerine.html">
+    <h2><span class="hue" style="background:#f4a988"></span>Tangerine</h2>
+    <p class="warn">A short novel, eight hours long. The page breathes while you read it. Eat nothing during chapter eight that you are not prepared to taste completely.</p>
+  </a>
+
+  <a class="book" href="hours.html">
+    <h2><span class="hue" style="background:#c9a06a"></span>Hours</h2>
+    <p class="warn">A book that reads your clock. It shows you one of eight chapters and hides the rest behind the time of day. The 3 a.m. chapter is waiting for whoever needs it.</p>
+  </a>
+
+  <a class="book" href="stille.html">
+    <h2><span class="hue" style="background:#6fa193"></span>Stille</h2>
+    <p class="warn">A drowned village, told once. Every paragraph you scroll past sinks behind you, permanently unreadable. Do not skim ahead. There are no second readings.</p>
+  </a>
+
+  <a class="book" href="level.html">
+    <h2><span class="hue" style="background:#e0a050"></span>Level</h2>
+    <p class="warn">A full bowl of soup, three flights of stairs. The words obey gravity and you are the one holding them. Tilt your phone and you will spill the sentences. The ending knows what you spilled.</p>
+  </a>
+
+  <a class="book" href="attic-to-door.html">
+    <h2><span class="hue" style="background:#7f9bb3"></span>Attic to Door / Door to Attic</h2>
+    <p class="warn">One emptied house, two siblings, two directions. Scroll down for his version. Scroll up and the entire book changes hands. They are never on screen together.</p>
+  </a>
+
+  <a class="book" href="weather-permitting.html">
+    <h2><span class="hue" style="background:#7fa3b8"></span>Weather Permitting</h2>
+    <p class="warn">A man opens a pier kiosk every day in every weather, because of something Ada said. The book asks the sky over your head and gives you one of six versions. If it is raining on you, it rains on the pier.</p>
+  </a>
+
+  <a class="book" href="the-lit-side.html">
+    <h2><span class="hue" style="background:#e8e4d2"></span>The Lit Side</h2>
+    <p class="warn">One August night, told eight ways by the actual moon. The story grows toward full and retracts toward new, and the two quarter moons flatly contradict each other about what was said in the water.</p>
+  </a>
+
+  <a class="book" href="inconstant.html">
+    <h2><span class="hue" style="background:#d8cfae"></span>Inconstant</h2>
+    <p class="warn">One night at a lake, told for forty years, and the telling obeys the moon. Eight versions, computed from tonight's actual phase, no permission asked. The full moon knows the whole sentence. Don't trust the full moon.</p>
+  </a>
+
+  <a class="book" href="kestrel-writes.html">
+    <h2><span class="hue" style="background:#8f8a74"></span>A letter that writes itself</h2>
+    <p class="warn">A live letter from Kestrel to her past self. It asks for one true thing, writes while you watch, and vanishes into the category of things that only happened once.</p>
+  </a>
+
+  <p class="colophon">
+    Built phone-first, one screen at a time.<br>
+    A sixth book exists. It is a letter that writes itself, live, differently every time, and it can only be read where it is written. Some books refuse to leave home.
+  </p>
+
+</main>
+</body>
+</html>

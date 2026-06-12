@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Lit Side — a novel that waxes</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,200..600,0..100;1,9..144,200..600,0..100&family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --night:#0a0c12;
+  --silver:#c9cdd6;
+  --moonlight:#e8e4d2;
+  --slate:#5f6573;
+}
+
+body{
+  background:var(--night);
+  color:var(--silver);
+  font-family:'Newsreader',Georgia,serif;
+  font-weight:300;font-size:1.16rem;line-height:1.82;
+  min-height:100vh;
+}
+
+/* moonlight on the water: brightness follows illumination */
+#glow{
+  position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse 90% 55% at 50% -10%, rgba(232,228,210,.16), transparent 65%);
+  opacity:0;transition:opacity 2s ease;
+}
+
+main{position:relative;z-index:1;max-width:33rem;margin:0 auto;padding:9vh 1.5rem 6rem}
+
+.press{
+  font-family:'Fraunces',serif;font-size:.72rem;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--slate);margin-bottom:2.2rem;
+}
+h1{
+  font-family:'Fraunces',serif;font-weight:320;
+  font-variation-settings:'SOFT' 90,'opsz' 144;
+  font-size:clamp(2.8rem,13vw,4.2rem);line-height:1.05;
+  color:var(--moonlight);margin-bottom:2.6rem;
+}
+
+#moonrow{display:flex;align-items:center;gap:1.4rem;margin-bottom:3rem}
+#bigmoon{flex:none}
+#phaseinfo{
+  font-family:ui-monospace,Menlo,monospace;
+  font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--slate);line-height:2;
+}
+#phaseinfo .name{color:var(--moonlight)}
+
+#visiting{display:none;margin-bottom:2.5rem;color:var(--slate);font-style:italic;font-size:.95rem}
+#visiting button{
+  background:none;border:none;cursor:pointer;padding:0;margin-left:.3em;
+  color:var(--moonlight);font:italic 300 .95rem 'Newsreader',serif;
+  border-bottom:1px solid var(--moonlight);
+}
+
+#story p{margin-bottom:1.35rem}
+
+.dial{margin-top:6rem;border-top:1px solid #181b24;padding-top:1.6rem}
+.dial span{
+  display:block;font-family:'Fraunces',serif;font-size:.68rem;
+  letter-spacing:.26em;text-transform:uppercase;color:var(--slate);margin-bottom:1rem;
+}
+.dial .moons{display:flex;gap:.7rem;flex-wrap:wrap}
+.dial button{
+  background:none;border:none;padding:2px;cursor:pointer;border-radius:50%;
+  opacity:.45;transition:opacity .2s ease,transform .2s ease;
+}
+.dial button:hover{opacity:1;transform:scale(1.2)}
+.dial button.here{opacity:1;outline:1px solid var(--moonlight);outline-offset:3px}
+
+.colophon{margin-top:3.5rem;color:var(--slate);font-style:italic;font-size:.9rem;line-height:1.9}
+</style>
+</head>
+<body>
+<div id="glow"></div>
+<main>
+
+  <div class="press">a novel that waxes</div>
+  <h1>The Lit Side</h1>
+
+  <div id="moonrow">
+    <div id="bigmoon"></div>
+    <div id="phaseinfo"></div>
+  </div>
+
+  <p id="visiting">This is not your moon. <button id="backToNow">return to tonight's</button></p>
+
+  <div id="story"></div>
+
+  <div class="dial">
+    <span>the eight moons · tonight's is ringed</span>
+    <div class="moons" id="dialmoons"></div>
+  </div>
+
+  <p class="colophon">This book asks nothing and connects to nowhere. The moon's position is arithmetic, and arithmetic is always in stock. Open it across a month and watch the story approach the truth and retreat from it. The quarters will never agree. That is not an error in the book. That is an error in the night, faithfully reproduced.</p>
+
+</main>
+
+<script>
+// ---------- the moon itself, pure arithmetic ----------
+const SYNODIC = 29.530588853;
+const REF_NEW = Date.UTC(2000, 0, 6, 18, 14); // a known new moon
+
+function moonAge(date){
+  const days = (date.getTime() - REF_NEW) / 86400000;
+  return ((days % SYNODIC) + SYNODIC) % SYNODIC;
+}
+function phaseFraction(date){ return moonAge(date) / SYNODIC; }
+function illumination(p){ return (1 - Math.cos(2 * Math.PI * p)) / 2; }
+
+function phaseIndex(p){
+  // eight bins centered on the cardinal points
+  const x = (p + 1/16) % 1;
+  return Math.floor(x * 8);
+}
+
+const PHASES = [
+  'new moon','waxing crescent','first quarter','waxing gibbous',
+  'full moon','waning gibbous','last quarter','waning crescent'
+];
+
+// representative fraction for drawing each bin's glyph
+const GLYPH_P = [0, .125, .25, .375, .5, .625, .75, .875];
+
+function moonSVG(p, size){
+  const R = 45;
+  const rx = (Math.abs(Math.cos(2 * Math.PI * p)) * R).toFixed(2);
+  const waxing = p <= 0.5;
+  const outerSweep = waxing ? 1 : 0;
+  const termSweep = waxing ? (p < 0.25 ? 0 : 1) : (p < 0.75 ? 0 : 1);
+  const k = illumination(p);
+  const lit = k < 0.02 ? '' :
+    '<path d="M 50,5 A '+R+','+R+' 0 0 '+outerSweep+' 50,95 A '+rx+','+R+' 0 0 '+termSweep+' 50,5 Z" fill="#e8e4d2"/>';
+  return '<svg width="'+size+'" height="'+size+'" viewBox="0 0 100 100">'
+    + '<circle cx="50" cy="50" r="'+R+'" fill="#1a1e2a" stroke="#2a2f3d" stroke-width="1"/>'
+    + lit + '</svg>';
+}
+
+// ---------- the eight tellings ----------
+const TELLINGS = [
+`There is no version of this tonight. The sky has closed the file.
+
+In August, some years ago, two people swam off the jetty at Wervenhoek after midnight. The water was warm on top and honest underneath. Nothing happened. We swam, we dried, we drove home with the windows down.
+
+The moon was not there to see it then either. Come back when there is light.`,
+
+`A sliver, then.
+
+We swam at night, Roos and I, off the jetty, August, the air still holding the day's heat like a kept secret. In the water she said something. I am not ready to write it with this little light.
+
+The sea was black silk over black iron. Afterward, on the planks, she wrung her hair out with both hands and laughed at something I had not said, which should have told me everything.
+
+The moon is growing. Ask again in a few nights.`,
+
+`Half lit, so here is half.
+
+In the water, past the second sandbank, Roos told me she was leaving. The city with no sea, the work, the man, all of it in one sentence delivered while floating on her back, to the sky, not to me.
+
+And I answered. I told her to stay. I know I did. I can hear my own voice over the water saying it, low so it would not carry. Stay.
+
+She dove under instead of replying and stayed down a long count, eleven, twelve, and surfaced laughing somewhere behind me, and we never spoke of either sentence again.
+
+That is the right half of the story. The other half belongs to the other quarter, and I warn you now, it disagrees.`,
+
+`Nearly full, nearly everything. The truth swells and I get less sure of it. That is the cruel arithmetic of light.
+
+August, the jetty, after midnight, because Roos said the sea kept different hours. We swam out past the second bank where the cold layers start. She said she was leaving. She floated on her back when she said it, eyes on the sky, so the words went up and out instead of across to me, and maybe that is why my answer, if I gave one, missed her.
+
+Then she dove. The sea closed over her without ceremony, the way it does, the way it would. I stood treading black water, counting without meaning to, and somewhere in the counting I understood exactly how large the sea was and exactly how small the word stay is. Whether I said it or only held it in my mouth like a stone, I cannot, even at this illumination, swear.
+
+She came up laughing. Of course she did. People like Roos always come up laughing.
+
+The moon will be full in a night or two. Then I will tell you the whole thing, and you should believe slightly less of it.`,
+
+`Full. So, everything, the way the full moon tells it, which is to say beautifully and with one hand on the scale.
+
+August the ninth or the eleventh, after midnight, the jetty at Wervenhoek with its missing fourth plank. The sea held the day's warmth in its top half meter and the dark cold underneath like a second opinion. We swam out past the second bank. Roos floated on her back, hair fanned, and said, I am going where the sea cannot ask me anything. Those were the words. The full moon remembers words.
+
+I said stay. I said it twice, the second time louder, and the second one skipped over the water like a flat stone and reached her, I watched it reach her.
+
+Then she dove. Fourteen. I counted to fourteen, and the surface sealed itself and turned silver and gave me back nothing but moon, and the sea at night is one animal wearing the whole horizon, and I knew it, fourteen, and she came up ten meters off laughing, with light running off her shoulders like solder.
+
+We drove home with the windows down. The radio found a song from the summer she failed her exams and we let it play.
+
+That is the full version. Full moons flatter. Somewhere in all this light one of these details is mine and not the night's, and I have never been able to find which one.`,
+
+`The moon has started taking it back, so I will too.
+
+The full version has her saying it twice. She said it once. The full version has light running off her shoulders like solder. I have seen the sea glow on that coast exactly twice in my life, and I no longer believe that night was one of them. I believe I moved it there, the way you move a lamp to flatter a room.
+
+What survives the subtraction: the warmth of the upper water. The cold underneath like a second opinion. Her voice doing the thing it did when she had already decided. The count. The laugh. The drive home with the windows down and neither of us reaching for the radio.
+
+Light leaves. What it leaves behind is sturdier.`,
+
+`The other half, as promised, and it disagrees.
+
+In the water Roos told me she was leaving, and I said nothing. I have checked every night for years, the way you check a door you already know is locked, and the answer is always the same. Nothing.
+
+The word stay was in my mouth, whole, ready, and I held it there until it dissolved, because saying it would have made her choose between me and the rest of her life while treading cold water on a count of twelve, and I have told myself ever since that the silence was a mercy and not a failure of nerve. Some nights I can believe that for entire minutes.
+
+The first quarter swears I spoke. Let it swear. Between the two of us, you will have to make your own moon.`,
+
+`Nearly gone now. So, only what matters.
+
+Roos lives in the city with no sea. We write twice a year, in the way of people guarding something by not handling it. I no longer know whether I spoke in the water, and I have stopped putting the question to the dark, because here is what the last of the light is for: she knew. Spoken or held, she floated there with her eyes on this same moon and heard it either way. And left anyway. And was right to, probably.
+
+The sea is still where we left it. In a few nights there will be nothing in the sky again, and the file will close, and then the whole thing begins to become true again from the beginning.`
+];
+
+// ---------- render ----------
+const now = new Date();
+const trueP = phaseFraction(now);
+const trueIdx = phaseIndex(trueP);
+let shownIdx = trueIdx;
+
+const bigmoon = document.getElementById('bigmoon');
+const phaseinfo = document.getElementById('phaseinfo');
+const story = document.getElementById('story');
+const visiting = document.getElementById('visiting');
+const glow = document.getElementById('glow');
+const dialmoons = document.getElementById('dialmoons');
+
+function render(idx){
+  shownIdx = idx;
+  const isNow = idx === trueIdx;
+  const p = isNow ? trueP : GLYPH_P[idx];
+  const k = illumination(p);
+  bigmoon.innerHTML = moonSVG(p, 76);
+  phaseinfo.innerHTML =
+    '<span class="name">' + PHASES[idx] + '</span><br>' +
+    Math.round(k * 100) + '% lit · ' +
+    now.toLocaleDateString('en-GB', {day:'numeric', month:'long'}) +
+    (isNow ? '' : ' · borrowed light');
+  glow.style.opacity = (k * 0.9).toFixed(2);
+  story.innerHTML = TELLINGS[idx].split(/\n\s*\n/).map(t => '<p>' + t + '</p>').join('');
+  visiting.style.display = isNow ? 'none' : 'block';
+  Array.from(dialmoons.children).forEach((b, i) => b.classList.toggle('here', i === idx));
+  window.scrollTo(0, 0);
+}
+
+PHASES.forEach((name, i) => {
+  const btn = document.createElement('button');
+  btn.innerHTML = moonSVG(GLYPH_P[i], 26);
+  btn.title = name;
+  btn.setAttribute('aria-label', name);
+  btn.addEventListener('click', () => render(i));
+  dialmoons.appendChild(btn);
+});
+
+document.getElementById('backToNow').addEventListener('click', () => render(trueIdx));
+
+render(trueIdx);
+</script>
+</body>
+</html>

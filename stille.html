@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stille — a novel you can read once</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,200..600,0..100;1,9..144,200..600,0..100&family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --lake:#0b1418;
+  --ink:#ccd3cd;
+  --reed:#b8ae8e;
+  --verdigris:#6fa193;
+  --deep:#39555a;
+}
+
+body{
+  background:var(--lake);
+  color:var(--ink);
+  font-family:'Newsreader',Georgia,serif;
+  font-weight:300;
+  font-size:1.16rem;
+  line-height:1.8;
+}
+
+main{max-width:33rem;margin:0 auto;padding:0 1.4rem 40vh}
+
+/* cover */
+.cover{
+  min-height:94vh;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.cover .press{
+  font-family:'Fraunces',serif;
+  font-size:.72rem;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--verdigris);margin-bottom:2.4rem;
+}
+.cover h1{
+  font-family:'Fraunces',serif;
+  font-weight:320;font-variation-settings:'SOFT' 90,'opsz' 144;
+  font-size:clamp(3.6rem,17vw,6rem);
+  color:var(--reed);line-height:1;
+}
+.cover .sub{margin-top:1.5rem;color:#7e8a84;font-style:italic;font-size:1.02rem;line-height:1.7}
+.cover .warn{
+  margin-top:3.4rem;padding-top:1.4rem;
+  border-top:1px solid #1e2c2e;
+  color:var(--verdigris);font-size:.95rem;font-style:italic;line-height:1.7;
+}
+
+h2{
+  font-family:'Fraunces',serif;
+  font-weight:380;font-size:1.75rem;color:var(--reed);
+  margin:5rem 0 1.6rem;line-height:1.2;
+}
+
+/* every sinkable unit */
+.s{
+  margin-bottom:1.3rem;
+  transition:opacity 2.6s ease, filter 2.6s ease, transform 2.6s ease, color 2.6s ease;
+}
+.s.drowned{
+  opacity:.06;
+  filter:blur(5px);
+  transform:translateY(7px);
+  color:var(--deep);
+  pointer-events:none;
+  user-select:none;
+  -webkit-user-select:none;
+}
+
+/* the waterline counter */
+.line{
+  position:fixed;left:0;right:0;top:0;height:2px;z-index:5;
+  background:linear-gradient(90deg,transparent,var(--verdigris),transparent);
+  opacity:.35;
+}
+.count{
+  position:fixed;right:.9rem;bottom:.8rem;z-index:5;
+  font-family:ui-monospace,Menlo,monospace;
+  font-size:.68rem;letter-spacing:.12em;
+  color:#4e635f;
+}
+
+.colophon{
+  margin-top:7rem;text-align:center;
+  color:#7e8a84;font-style:italic;font-size:.95rem;line-height:1.9;
+}
+.colophon .mark{
+  display:block;color:var(--verdigris);
+  font-family:'Fraunces',serif;font-style:normal;font-size:1.4rem;margin-bottom:1rem;
+}
+
+@media (prefers-reduced-motion: reduce){
+  .s{transition:none}
+}
+</style>
+</head>
+<body>
+<div class="line"></div>
+<div class="count" id="count"></div>
+
+<main>
+
+<section class="cover">
+  <div class="press">a novel you can read once</div>
+  <h1>Stille</h1>
+  <p class="sub">There was a village. Then there was a lake. One person still knows the difference, and she is in a rowing boat, and she is about to tell you.</p>
+  <p class="warn">Read slowly. The water follows you down the page. Every paragraph you scroll past sinks behind you and cannot be read again. There is no going back. That is not a metaphor, try it and see.</p>
+</section>
+
+<h2 class="s">The Boat</h2>
+<p class="s">I will say this once, so row your eyes gently.</p>
+<p class="s">It is just after five in the morning and the lake is the color of an unlit lamp. I have rowed out to the middle, which I can find without looking, the way you can find a light switch in a house you grew up in. Below this boat, under eleven meters of reservoir, is the village of Stille, where I was born, and where everyone I am about to mention is either dead or eighty or me.</p>
+<p class="s">They flooded it the year I turned nineteen. On purpose, with paperwork. The country needed the water and the village was small and the compensation was, I am told, fair. Fair is a word men use when they have already decided.</p>
+<p class="s">I am the last one who can still draw the streets from memory. When I go, the village goes a second time, and the second drowning is the real one. So I am telling it to you, once, while the oars drip. Hold what you can. The lake will take the rest, it has practice.</p>
+
+<h2 class="s">The Bell</h2>
+<p class="s">They say the church bell still rings down there in heavy weather. Tourists say it, the ones who rent the paddle boats in summer and drink white beer at the new marina that floats, if you measure carefully, directly above the graveyard.</p>
+<p class="s">It does not ring. I will tell you why, and the why is better than the legend.</p>
+<p class="s">The night before the water came, four men went up the tower with rope and a block and tackle, and they brought the bell down in the dark, eight hundred kilos of it, because the youngest of them, Joop, who was not bright but was right, said you do not leave a voice behind to drown. They put it on a flatbed and it sat in a barn in the next municipality for thirty years, under sacks.</p>
+<p class="s">It hangs now in a new church with underfloor heating, and it rings every Sunday over a car park, and nobody who hears it knows it is ringing in the wrong sky. Except me. I hear it some Sundays when the wind comes from the east, and I think: there you are. Still loud. Still ours. Lying beautifully about where you are from.</p>
+
+<h2 class="s">Bread</h2>
+<p class="s">My mother worked in the bakery on the square, which was not a square, it was a widening in the road where two elms stood, but we called it the square because a village needs one even if it has to lie a little.</p>
+<p class="s">The oven was older than the church. There was a spot on the side wall, at the height of a child's shoulder blades, that stayed warm until almost midnight, and in winter the children would lean against it after skating, in a row, like loaves themselves, proving.</p>
+<p class="s">I can still feel that wall. That is the strange part of being old. The wall is gone, the bakery is gone, the warmth has been eleven meters under cold water for sixty years, and my shoulder blades remember it better than they remember last Tuesday.</p>
+<p class="s">My mother's hands smelled of yeast until the day she died, in a flat, in a town, above a shop that sold telephones. The nurses said it was lavender soap. It was not lavender soap.</p>
+
+<h2 class="s">The Night the Water Came</h2>
+<p class="s">It did not come like a wave. People imagine a wave. It came like an administration, slowly, with a level, conforming to its own paperwork.</p>
+<p class="s">We had all left by then, officially. Unofficially, half the village stood on the eastern dike all night, in good coats, watching their own windows. Nobody spoke much. Once, when the water reached the sills on Kerkstraat, a sound went through the crowd that I have never heard since and hope not to. It was not crying. It was lower than crying.</p>
+<p class="s">My father smoked four cigarettes in a row and said one thing the whole night. He said: the cellar will flood first, and I never fixed the door, and now I never have to. Then he laughed, two notes, and put the laugh away somewhere and I do not think he ever took it out again.</p>
+<p class="s">By morning there was only the church tower above the surface, and they took that down with charges the following spring, for the safety of boats. For the safety of boats. I have repeated that phrase to myself for sixty years, the way you press a bruise.</p>
+
+<h2 class="s">The List</h2>
+<p class="s">What was saved, partial inventory, from memory: the bell, as I said. Both elms, dug out with root balls the size of wardrobes, one survived. The altar stone. Forty-one front doors, because a front door was worth money and grief has a practical streak. The weathervane cockerel, which lives now in a museum forty minutes away, in a glass case, labeled REGIONAL.</p>
+<p class="s">What was not saved: the warm spot on the bakery wall. The echo in the cycle tunnel under the dike, where every child tested their voice on the way to school, two generations of names shouted into the same dark and the dark always giving them back. The particular way evening arrived on the square, from the west, through the elms, in pieces.</p>
+<p class="s">You cannot dig out an echo. They never even put it on the forms. There was no form with a box for it, and what has no box, drowns.</p>
+
+<h2 class="s">Anna</h2>
+<p class="s">I had a sister. Have. The grammar has never settled.</p>
+<p class="s">Anna was three years older and stayed in the region when I left for the city, married a man with a gravel business, lived twenty minutes from the lake her whole life and never once, not once in sixty years, went to look at it. At family parties, if someone mentioned the water, she would stand and refill things that were not empty.</p>
+<p class="s">I thought for a long time that she had forgotten on purpose, and I held it against her, quietly, the way you hold something against a sister, with love folded into it like a knife in a tea towel.</p>
+<p class="s">Then at the end, in the hospice, with her eyes closed, she drew the village for me in the air with one finger. Every street. The pump, the school, the widening we called a square. She had the elms the right distance apart. She had never forgotten a single brick. She had just decided, sixty years earlier, that looking at the lake was a thing the lake did not deserve.</p>
+<p class="s">Hers was the better system. I have come out here every year and called it remembering. She kept the whole village dry inside her and never gave the water the satisfaction.</p>
+
+<h2 class="s">The Surface</h2>
+<p class="s">The sun is up now. The lake has gone from lamp to pewter to an ordinary pleasant blue that gives away nothing. A heron is standing on the marker buoy with the patience of a creditor. By eight the first paddle boats will come out, and children will swim here, over the school, over the square, and their laughing will come down through the water like light, in pieces, and I have decided over the years that this is allowed.</p>
+<p class="s">I told you it once. It is yours now, whatever stuck. Behind you on this page the village has gone under a second time, paragraph by paragraph, and you cannot go back for it, and now you know something true about how this feels that I could not have told you in words.</p>
+<p class="s">What you remember of what you read is the village now. Misremember it kindly.</p>
+<p class="s">I am going to sit here a while longer. The oars are shipped. Under the boat, eleven meters down, it is the hour when my mother would be lighting the oven.</p>
+
+<div class="colophon s-keep">
+  <span class="mark">~</span>
+  <span id="tally"></span><br>
+  There are no second readings.
+</div>
+
+</main>
+
+<script>
+const units = Array.from(document.querySelectorAll('.s'));
+const total = units.length;
+let drownedCount = 0;
+const drownedIds = new Set();
+units.forEach((el,i)=> el.dataset.sid = i);
+
+const countEl = document.getElementById('count');
+const tallyEl = document.getElementById('tally');
+
+function updateCount(){
+  countEl.textContent = drownedCount + ' / ' + total + ' under';
+  tallyEl.textContent = 'You read it once. ' + drownedCount + ' of its ' + total + ' passages are under the water now.';
+}
+
+async function persist(){
+  try{
+    if(window.storage) await window.storage.set('stille-drowned', JSON.stringify([...drownedIds]));
+  }catch(e){ /* the lake forgets when it must */ }
+}
+
+function drown(el, instant){
+  if(el.classList.contains('drowned')) return;
+  if(instant){
+    const t = el.style.transition;
+    el.style.transition = 'none';
+    el.classList.add('drowned');
+    requestAnimationFrame(()=>{ el.style.transition = t; });
+  }else{
+    el.classList.add('drowned');
+  }
+  drownedIds.add(el.dataset.sid);
+  drownedCount++;
+  updateCount();
+}
+
+const observer = new IntersectionObserver((entries)=>{
+  let changed = false;
+  entries.forEach(entry=>{
+    // sink only what has fully passed above the top of the screen
+    if(!entry.isIntersecting && entry.boundingClientRect.bottom < 0){
+      drown(entry.target, false);
+      observer.unobserve(entry.target);
+      changed = true;
+    }
+  });
+  if(changed) persist();
+},{threshold:0});
+
+async function init(){
+  // if the book remembers a previous reading, those passages stay drowned
+  try{
+    if(window.storage){
+      const prev = await window.storage.get('stille-drowned');
+      if(prev && prev.value){
+        JSON.parse(prev.value).forEach(id=>{
+          const el = units[Number(id)];
+          if(el){ drown(el, true); }
+        });
+      }
+    }
+  }catch(e){ /* first reading, or a forgetful lake */ }
+  units.forEach(el=>{
+    if(!el.classList.contains('drowned')) observer.observe(el);
+  });
+  updateCount();
+}
+
+init();
+</script>
+</body>
+</html>

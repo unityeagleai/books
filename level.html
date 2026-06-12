@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>Level — a novel you have to carry</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,200..600,0..100;1,9..144,200..600,0..100&family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --stairwell:#14100c;
+  --plaster:#d9cfc0;
+  --broth:#e0a050;
+  --steam:#8d8377;
+  --wood:#3a2e22;
+}
+
+html,body{height:100%;overscroll-behavior:none}
+body{
+  background:var(--stairwell);
+  color:var(--plaster);
+  font-family:'Newsreader',Georgia,serif;
+  font-weight:300;
+  overflow:hidden;
+  touch-action:none;
+  -webkit-user-select:none;user-select:none;
+}
+
+/* ---------- cover ---------- */
+#cover{
+  position:fixed;inset:0;z-index:10;
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;
+  padding:2rem 1.6rem;
+  background:var(--stairwell);
+  max-width:34rem;margin:0 auto;
+}
+#cover .press{
+  font-family:'Fraunces',serif;font-size:.72rem;letter-spacing:.32em;
+  text-transform:uppercase;color:var(--broth);margin-bottom:2rem;
+}
+#cover h1{
+  font-family:'Fraunces',serif;font-weight:320;
+  font-variation-settings:'SOFT' 90,'opsz' 144;
+  font-size:clamp(3.6rem,18vw,6rem);color:var(--plaster);line-height:1;
+}
+#cover .sub{margin-top:1.4rem;color:var(--steam);font-style:italic;line-height:1.7;font-size:1.02rem}
+#cover .how{
+  margin-top:2.6rem;padding-top:1.4rem;border-top:1px solid #2a221a;
+  color:var(--broth);font-size:.95rem;font-style:italic;line-height:1.7;
+}
+#begin{
+  margin-top:2.6rem;
+  background:none;border:1px solid var(--broth);border-radius:2rem;
+  color:var(--broth);font:300 1.05rem 'Newsreader',serif;
+  padding:.7rem 1.9rem;cursor:pointer;
+}
+
+/* ---------- stage ---------- */
+#stage{position:fixed;inset:0;display:none;flex-direction:column;max-width:34rem;margin:0 auto;padding:0 1.3rem}
+
+#topbar{
+  display:flex;align-items:center;gap:1rem;
+  padding:1.1rem 0 .6rem;
+}
+/* spirit level */
+#vial{
+  width:64px;height:64px;border-radius:50%;
+  border:1px solid #2e261c;position:relative;flex:none;
+  background:radial-gradient(circle at 50% 45%, #1c1610, #120e0a);
+}
+#bubble{
+  position:absolute;width:16px;height:16px;border-radius:50%;
+  left:50%;top:50%;margin:-8px 0 0 -8px;
+  background:radial-gradient(circle at 35% 30%, #f5d9a8, var(--broth));
+  box-shadow:0 0 10px rgba(224,160,80,.35);
+  transition:background .3s ease;
+}
+#vial.spill #bubble{background:radial-gradient(circle at 35% 30%, #f2a070, #c05a30)}
+#chap{
+  font-family:'Fraunces',serif;font-weight:380;
+  font-size:1.25rem;color:var(--broth);line-height:1.25;
+}
+#spills{
+  margin-left:auto;flex:none;text-align:right;
+  font-family:ui-monospace,Menlo,monospace;
+  font-size:.66rem;letter-spacing:.12em;color:#5e5446;
+}
+
+#poolwrap{flex:1;position:relative;overflow:hidden}
+#pool{position:absolute;inset:0}
+#pool span{
+  position:absolute;left:0;top:0;
+  font-size:1.22rem;line-height:1.7;
+  will-change:transform;
+  white-space:nowrap;
+}
+
+#bottombar{
+  padding:0 0 max(1.2rem, env(safe-area-inset-bottom));
+  display:flex;align-items:center;gap:1.2rem;
+}
+#carry{
+  background:none;border:1px solid var(--wood);border-radius:2rem;
+  color:var(--plaster);font:300 1rem 'Newsreader',serif;
+  padding:.6rem 1.6rem;cursor:pointer;
+  transition:opacity .6s ease;
+}
+#relevel{
+  background:none;border:none;color:#5e5446;
+  font:italic 300 .85rem 'Newsreader',serif;cursor:pointer;padding:0;
+}
+
+/* ---------- end ---------- */
+#fin{
+  position:fixed;inset:0;z-index:11;display:none;
+  flex-direction:column;justify-content:center;align-items:center;
+  background:var(--stairwell);text-align:center;padding:2rem;
+}
+#fin .mark{font-family:'Fraunces',serif;color:var(--broth);font-size:1.5rem;margin-bottom:1.2rem}
+#fin p{color:var(--steam);font-style:italic;line-height:1.9;max-width:26rem}
+</style>
+</head>
+<body>
+
+<div id="cover">
+  <div class="press">a novel you have to carry</div>
+  <h1>Level</h1>
+  <p class="sub">A full bowl of soup. Three flights of stairs. The words in this book obey gravity, and you are the one holding them.</p>
+  <p class="how">Hold your phone flat and steady, like a bowl. Tilt it and the sentences pour toward the low corner. Bring it level and they climb back into place. The book keeps count of what you spill.</p>
+  <button id="begin">pick up the bowl</button>
+</div>
+
+<div id="stage">
+  <div id="topbar">
+    <div id="vial"><div id="bubble"></div></div>
+    <div id="chap"></div>
+    <div id="spills">spilled ×0</div>
+  </div>
+  <div id="poolwrap"><div id="pool"></div></div>
+  <div id="bottombar">
+    <button id="carry">carry on</button>
+    <button id="relevel">set level here</button>
+  </div>
+</div>
+
+<div id="fin">
+  <div class="mark">~</div>
+  <p id="finline"></p>
+  <p style="margin-top:1.6rem;font-size:.9rem">Level · read once, carried throughout<br>Tilt your phone toward someone you like and hand it over.</p>
+</div>
+
+<script>
+const chapters = [
+  {t:'The Ground Floor', x:`This is chicken soup with too much celery, the way Hennie likes it, and it is full to the brim because I am an optimist with bad judgment. She lives on the third floor. There is no elevator. There never has been. Hold this the way you would hold the bowl, flat, both thumbs, and we will get it up the stairs together. If the words begin to slide, you are tipping us. Steady. Good. Eleven steps to the first turn.`},
+  {t:'The First Flight', x:`My mother made this soup for every crisis in a forty-year career of other people's crises. Births, funerals, exam results, a divorce on our own landing once. She measured nothing. Soup forgives, she said, which I understood at nine to be about celery and understand now to be about everything. Mind the fourth step, it dips on the left. Every building has one step that wants you to fail. Ours is the fourth.`},
+  {t:'The First Landing', x:`Hennie has lived above me for nineteen years. She fed my cat through two of my bad decisions and never once asked what they were. Don't ring, she told me the first week, knock, the bell frightens the birds. She keeps canaries. Lately the knocking takes longer to answer, and the shuffle behind the door has changed tempo, and I have started counting the seconds without wanting the number.`},
+  {t:'The Second Flight', x:`The word the doctor gave her has too many syllables to carry up a staircase, so I am not carrying it. I am carrying soup. There is a difference and on some days the difference is the only thing I have. Careful. Careful, that one nearly went. When the surface tips, everything in it tips, the carrots, the light from the landing window, the face you make when you are trying not to make a face.`},
+  {t:'The Second Landing', x:`Rest a moment. The window here looks down into the courtyard where the bicycles rust in nobody's name. Spilled soup is not a tragedy, you can mop a stair. But she would see the bowl two-thirds full and know I hurried, and Hennie has spent nineteen years kindly not noticing things about me. The least I can do is arrive with nothing for her kindness to forgive.`},
+  {t:'The Third Flight', x:`Last flight. The steam has been climbing past my face the whole way like something escaping politely. I can hear the canaries now, faintly, doing their small bright arithmetic behind her door. Step. Step. The trick at the end is the same as the trick at the start, which my mother also said about other matters. Slowly. Level. You are almost someone arriving.`},
+  {t:'The Door', x:`I set nothing down yet. I knock with a knuckle, twice, soft, the agreed knock. Inside, the shuffle starts, slower than last winter, and the birds go quiet to listen, and the steam rises off the surface into the light from the stairwell window. The latch.`}
+];
+
+const endings = [
+  'Full to the brim, after everything. She will laugh at me for that.',
+  'A little was lost on the stairs. It always is. She will not count.',
+  'What is left is still warm, and warm is the whole of what soup promises.'
+];
+
+const cover = document.getElementById('cover');
+const stage = document.getElementById('stage');
+const pool = document.getElementById('pool');
+const chapEl = document.getElementById('chap');
+const carryBtn = document.getElementById('carry');
+const vial = document.getElementById('vial');
+const bubble = document.getElementById('bubble');
+const spillsEl = document.getElementById('spills');
+const fin = document.getElementById('fin');
+
+let words = [];        // {el,hx,hy,x,y,vx,vy}
+let tiltX = 0, tiltY = 0;       // calibrated degrees
+let rawG = null, rawB = null;   // latest raw sensor
+let g0 = 0, b0 = 0;             // calibration
+let sensorLive = false;
+let dragging = false, dragSX = 0, dragSY = 0;
+let chapter = 0;
+let spills = 0, inSpill = false;
+let pouringOut = false;
+
+function setChapter(i){
+  chapter = i;
+  chapEl.textContent = chapters[i].t;
+  pool.innerHTML = '';
+  words = [];
+  // lay words out inline to measure their home positions
+  const ghost = document.createElement('div');
+  ghost.style.cssText = 'position:absolute;inset:0;font-size:1.22rem;line-height:1.7;visibility:hidden;';
+  chapters[i].x.split(/\s+/).forEach(w=>{
+    const s = document.createElement('span');
+    s.textContent = w;
+    s.style.cssText = 'position:static;display:inline-block;margin-right:.32em;white-space:nowrap;';
+    ghost.appendChild(s);
+  });
+  pool.appendChild(ghost);
+  const homes = Array.from(ghost.children).map(s=>({w:s.textContent,hx:s.offsetLeft,hy:s.offsetTop}));
+  pool.removeChild(ghost);
+  homes.forEach((h,idx)=>{
+    const s = document.createElement('span');
+    s.textContent = h.w;
+    pool.appendChild(s);
+    words.push({
+      el:s, hx:h.hx, hy:h.hy,
+      x:h.hx + (Math.random()*60-30),
+      y:h.hy - 140 - Math.random()*180,
+      vx:0, vy:0
+    });
+  });
+}
+
+function bounds(){
+  return {w: pool.clientWidth, h: pool.clientHeight};
+}
+
+function tick(){
+  const b = bounds();
+  const m = Math.min(45, Math.hypot(tiltX, tiltY));        // tilt magnitude, deg
+  const springFactor = pouringOut ? 0 : Math.max(0, 1 - (m/14)*(m/14)); // breaks loose past ~14°
+  const gx = pouringOut ? 0 : tiltX * 0.016;
+  const gy = pouringOut ? 0.9 : tiltY * 0.016;
+
+  for(const wd of words){
+    wd.vx += gx + (wd.hx - wd.x) * 0.07 * springFactor;
+    wd.vy += gy + (wd.hy - wd.y) * 0.07 * springFactor;
+    wd.vx *= 0.90; wd.vy *= 0.90;
+    wd.x += wd.vx; wd.y += wd.vy;
+    // walls
+    const maxX = b.w - wd.el.offsetWidth;
+    const maxY = b.h - wd.el.offsetHeight;
+    if(wd.x < 0){wd.x = 0; wd.vx *= -0.3}
+    if(wd.x > maxX){wd.x = maxX; wd.vx *= -0.3}
+    if(wd.y < 0){wd.y = 0; wd.vy *= -0.3}
+    if(wd.y > maxY){wd.y = maxY; wd.vy *= -0.3}
+    const d = Math.hypot(wd.x - wd.hx, wd.y - wd.hy);
+    wd.el.style.opacity = pouringOut ? Math.max(0, 1 - wd.y/b.h*1.2) : Math.max(.3, 1 - d/520);
+    wd.el.style.transform = 'translate(' + wd.x + 'px,' + wd.y + 'px)';
+  }
+
+  // bubble: opposite the tilt, like a real vial
+  bubble.style.transform = 'translate(' + (-tiltX*0.9) + 'px,' + (-tiltY*0.9) + 'px)';
+
+  // spill accounting
+  if(!pouringOut){
+    if(m > 26 && !inSpill){
+      inSpill = true; spills++;
+      spillsEl.textContent = 'spilled ×' + spills;
+      vial.classList.add('spill');
+    }else if(m < 12 && inSpill){
+      inSpill = false;
+      vial.classList.remove('spill');
+    }
+  }
+
+  // drag fallback eases back to level
+  if(!dragging && !sensorLive){
+    tiltX *= 0.93; tiltY *= 0.93;
+  }
+
+  requestAnimationFrame(tick);
+}
+
+function handleOrientation(e){
+  if(e.gamma === null && e.beta === null) return;
+  sensorLive = true;
+  rawG = e.gamma || 0; rawB = e.beta || 0;
+  tiltX = Math.max(-45, Math.min(45, rawG - g0));
+  tiltY = Math.max(-45, Math.min(45, rawB - b0));
+}
+
+document.getElementById('relevel').addEventListener('click', ()=>{
+  if(rawG !== null){ g0 = rawG; b0 = rawB; }
+  tiltX = 0; tiltY = 0;
+});
+
+// drag fallback (desktop, or viewers that refuse the sensor)
+window.addEventListener('pointerdown', e=>{
+  if(cover.style.display !== 'none' || fin.style.display === 'flex') return;
+  dragging = true; dragSX = e.clientX; dragSY = e.clientY;
+});
+window.addEventListener('pointermove', e=>{
+  if(!dragging || sensorLive) return;
+  tiltX = Math.max(-45, Math.min(45, (e.clientX - dragSX)/6));
+  tiltY = Math.max(-45, Math.min(45, (e.clientY - dragSY)/6));
+});
+window.addEventListener('pointerup', ()=>{ dragging = false; });
+
+document.getElementById('begin').addEventListener('click', async ()=>{
+  // iOS wants to be asked, inside a trusted gesture, you taught me that one
+  try{
+    if(typeof DeviceOrientationEvent !== 'undefined' &&
+       typeof DeviceOrientationEvent.requestPermission === 'function'){
+      await DeviceOrientationEvent.requestPermission();
+    }
+  }catch(e){ /* fall back to drag */ }
+  window.addEventListener('deviceorientation', handleOrientation);
+  // calibrate to however they are holding it right now
+  setTimeout(()=>{ if(rawG !== null){ g0 = rawG; b0 = rawB; } }, 400);
+  cover.style.display = 'none';
+  stage.style.display = 'flex';
+  setChapter(0);
+  requestAnimationFrame(tick);
+});
+
+carryBtn.addEventListener('click', ()=>{
+  if(pouringOut) return;
+  if(chapter >= chapters.length - 1){
+    // set the bowl down
+    const which = spills === 0 ? 0 : (spills <= 2 ? 1 : 2);
+    document.getElementById('finline').textContent =
+      endings[which] + ' You tipped us ' + spills + (spills===1?' time.':' times.');
+    fin.style.display = 'flex';
+    return;
+  }
+  pouringOut = true;
+  setTimeout(()=>{
+    pouringOut = false;
+    setChapter(chapter + 1);
+    if(chapter === chapters.length - 1) carryBtn.textContent = 'set the bowl down';
+  }, 950);
+});
+
+window.addEventListener('resize', ()=>{
+  if(stage.style.display === 'flex' && !pouringOut) setChapter(chapter);
+});
+</script>
+</body>
+</html>

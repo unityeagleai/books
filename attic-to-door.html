@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attic to Door / Door to Attic</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,200..600,0..100;1,9..144,200..600,0..100&family=Newsreader:ital,opsz,wght@0,6..72,200..500;1,6..72,200..500&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+:root{
+  --jules-bg:#171310;
+  --jules-ink:#d9d0c2;
+  --jules-acc:#c47b54;
+  --marit-bg:#10141a;
+  --marit-ink:#ccd2da;
+  --marit-acc:#7f9bb3;
+  --dim:#6e675c;
+}
+
+body{
+  font-family:'Newsreader',Georgia,serif;
+  font-weight:300;
+  font-size:1.16rem;
+  line-height:1.8;
+  transition:background 1.2s ease, color 1.2s ease;
+}
+body.down{background:var(--jules-bg);color:var(--jules-ink)}
+body.up{background:var(--marit-bg);color:var(--marit-ink)}
+
+#bar{
+  position:fixed;top:0;left:0;right:0;z-index:5;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.8rem 1.3rem;
+  font-family:'Fraunces',serif;
+  font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;
+  backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);
+  transition:color 1.2s ease;
+}
+body.down #bar{color:var(--jules-acc);background:rgba(23,19,16,.55)}
+body.up #bar{color:var(--marit-acc);background:rgba(16,20,26,.55)}
+
+main{max-width:33rem;margin:0 auto;padding:6rem 1.4rem 0}
+
+.block{margin-bottom:5.5rem}
+.block .eyebrow{
+  font-family:'Fraunces',serif;
+  font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;
+  margin-bottom:1rem;
+  transition:color .8s ease;
+}
+body.down .eyebrow{color:var(--jules-acc)}
+body.up .eyebrow{color:var(--marit-acc)}
+.block .tx{transition:opacity .18s ease}
+body.up .block .tx{font-style:italic}
+
+.cover h1{
+  font-family:'Fraunces',serif;font-weight:320;
+  font-variation-settings:'SOFT' 90,'opsz' 144;
+  font-size:clamp(2.4rem,11vw,3.6rem);line-height:1.1;
+  margin-bottom:1.4rem;
+}
+.note{color:var(--dim);font-style:italic;font-size:.98rem;line-height:1.75}
+
+.tail{padding-bottom:45vh;text-align:center}
+.tail .arrow{
+  font-family:'Fraunces',serif;font-size:1.6rem;display:block;margin-bottom:1rem;
+  transition:color .8s ease;
+}
+body.down .tail .arrow{color:var(--jules-acc)}
+body.up .tail .arrow{color:var(--marit-acc)}
+</style>
+</head>
+<body class="down">
+
+<div id="bar">
+  <span id="barTitle">attic to door</span>
+  <span id="barName">jules ↓</span>
+</div>
+
+<main id="main"></main>
+
+<script>
+// every block holds two texts. a = Jules, read downward. b = Marit, read upward.
+// Marit's chronology runs from the bottom of the page to the top.
+const blocks = [
+  {
+    room:'', cover:true,
+    a:`<h1>Attic to Door</h1><p class="note">Their mother's house was sold on a Tuesday and emptied on a Thursday. This page is the house. Scroll down and Jules empties it, attic to front door, the way you bail a boat. At any point, scroll back up, and the house will change hands. His sister tells it the other way, and the two of them are never on this screen together. That is not a bug. That was the whole family.</p>`,
+    b:`<h1>Door to Attic</h1><p class="note">Marit stands in the empty attic with the skylight open. A house is emptied twice, she thinks. Once into boxes, once into whoever climbs back up through it afterward. Below her, eight rooms of her brother's careful day, undone and redone in her own order. Scroll down and it is his Thursday again. She would not mind. They were always two directions through the same house.</p>`
+  },
+  {
+    room:'The Attic',
+    a:`You empty a house from the top, the way you bail a boat. I was on the ladder by eight with coffee and the inventory list, forty-one lines, my handwriting, nobody else was going to make a list. Marit's flight lands at noon, which means two, which means I do the attic alone. Father's slide projector was under the insulation wool in a suitcase nobody had opened since 1994. I sat on a beam for a while with it on my knees. Then I wrote: projector, one, keep, and went on bailing.`,
+    b:`The attic last, and empty, and somehow the only room that still smells like us. He took the projector, I saw it on his list, the list he left squared on the windowsill like a receipt for the whole day. Good. Let one of us have the light we were small in. I opened the skylight because mother never allowed it, rain, pigeons, reasons, and stood with my head out of the roof of my childhood, and the street was just a street, and that was somehow the kindest thing it could have been.`
+  },
+  {
+    room:"Mother's Room",
+    a:`The bed went to the collection people on Monday, so the room was already half a room. Rectangles on the wallpaper where the pictures hung, brighter than the wall, the house keeping its own photographs of the photographs. Her dress, the good one, was still behind the door. I had a system by then, three piles, keep, give, go, and the system worked on everything in the house except the dress, which I moved from pile to pile four times and finally laid flat in the car like a passenger.`,
+    b:`I lay down on the floor where her bed had been. You would have to know me my whole life to know that is a thing I do, and the only person left who knows it had driven off with the trailer an hour before. The ceiling has a crack shaped like a river delta. She looked at that crack for thirty years of Sunday mornings. All those phone calls from abroad, me narrating weather, her saying fine, fine, and the river delta hanging over her the whole time, never once mentioned.`
+  },
+  {
+    room:'The Landing',
+    a:`The pencil marks are still on the doorframe, our heights, 1981 to 1996, two ladders of little dates climbing the white paint. The painters come Friday. I stood there with the sander in my hand and could not do it, which annoyed me, because I had been doing fine, the list was working. I photographed the doorframe instead, both sides, close up, with the flash, like evidence. Some things you cannot keep and cannot strip. You photograph them and let the painters be the ones.`,
+    b:`On the landing I did the thing I flew home to do, though I only understood that once it was done. The pencil was still in the jar on the windowsill, the same jar. I stood against the doorframe one more time, fifty-one years old, and then I reached up and made one more mark above all of ours, from memory, her height. I got it wrong, I think. Too low. She was taller than the mark my whole childhood and smaller than it at the end, so perhaps the pencil split the difference.`
+  },
+  {
+    room:'The Bathroom',
+    a:`Medicines into the pharmacy bag, the law is clear about that and the law is a mercy, it decides for you. Her comb went in the bag too, I was moving fast by then, the bathroom is where the speed got into me. Mirror, cabinet, done. There is nothing in a bathroom you can grieve over, I told myself, in the mirror, a man holding a pharmacy bag, and the man in the mirror was polite enough not to answer.`,
+    b:`I took the comb back out of the pharmacy bag. He will never know, and if he reads this, fine, Jules, I took the comb, fine. Some things should not be efficient. The soap was the same brand as fifty years ago, the yellow one, and I held it dry in my hand and was eight years old for the length of one breath, in from the garden, made to wash before bread. Smell is the stairs the dead come down. The comb is in my coat. It is staying in my coat.`
+  },
+  {
+    room:'The Stairs',
+    a:`Eleven trips down with boxes, the third stair complaining every time, it has complained since before I was born, the one voice in the house that never changed. We used to ride down these stairs on the tea tray, Marit steering, me behind, mother shouting in two languages. I carried the last box down sideways like furniture and the third stair said its word and I said, out loud, in the empty stairwell, I know. I know.`,
+    b:`Climbing them in the empty house, the third stair was louder, the way everything true gets louder when the furniture of an argument is gone. We rode down these stairs in the laundry basket, me steering, Jules behind, screaming happily into my shoulder blades. He says it was the tea tray. He has said tea tray for forty years. It was the basket, the blue one with the split handle, and neither of us will ever surrender, and I hope we never settle it, it is the last thing of hers we both still hold.`
+  },
+  {
+    room:'The Front Room',
+    a:`Her chair faced the window, not the television, people get that wrong about her. The TV guide was on the armrest with her circles in blue pen around programs running through next Thursday. A week of small futures, circled. That was the one moment the list failed me completely. I sat in the chair facing her window, the street, the gulls on the ridgeline opposite, and let it have me for exactly as long as it needed, and then I put the guide in my jacket, which was not one of the three piles. There was no pile for it.`,
+    b:`The dent of her in the chair cushion, that is what was left of her in the front room, a shallow valley the shape of staying put. I sat in it. You are not supposed to, it is like standing in someone's footprints, but I sat in her dent and looked at her view, and her view turned out to be everything. The whole street. Both corners. Who came, who went, who was late, whose coat was new. We thought she was watching television all those years. She was watching the world. The television was just an alibi.`
+  },
+  {
+    room:'The Kitchen',
+    a:`Marit arrived at half past two, dropped her bag in the doorway, and we had it out over the kitchen table inside of ten minutes, because that is the room where this family keeps its weather. Take the table, she said, you should have it. What I heard was: you stayed, you were here for all of it, so you carry the weight too. I said something about the trailer being full. The trailer was not full. We drank coffee standing up among the boxes like two movers who had never met.`,
+    b:`What I said in the kitchen was take the table, and what I meant was: you sat at it with her every Sunday for eleven years while I telephoned from another country, and I want one true thing in your house instead of mine, because you earned it and I am ashamed, and a table is the only dictionary I had for all that. He heard a burden being handed over. I watched him hear it. We have been mistranslating each other across that table since 1989, and we did it one last time, fluently, and drank our coffee standing up.`
+  },
+  {
+    room:'The Hallway',
+    a:`Last room, smallest room, the one that was always only ever a passage. Her keys I left on the windowsill for the estate agent, the spare set. I stood with my back against the front door the way you do when a house is finally hollow, hearing it not make her sounds. Then I went out and locked the door from the outside, for the first time in my life, and posted nothing, and drove the trailer to the dump and the storage place, in that order, and did not look in the mirror until the ring road.`,
+    b:`I begin at the front door, because I arrived too late for beginnings all day. Jules drove off at five with the trailer and the list and his terrible composure, and I stood on the step and waited for the sound of his engine to be gone. Then I took out my own key, the one I have carried through four countries and never told him about, and I let myself back into the house my brother believed was finished. Houses are not finished when they are empty. That is when they finally start talking.`
+  },
+  {
+    room:'', tail:true,
+    a:`<span class="arrow">↑</span><p class="note">This is the front door, closed, with Jules driving away on the other side of it. His sister is still standing on the step, holding a key he does not know about. Her way through the house only opens in the other direction. Scroll up. Everything you just read will change hands.</p>`,
+    b:`<span class="arrow">↑</span><p class="note">Marit has gone inside. Follow her up, room by room, door to attic. Down is his day. Up is hers. The house holds both, the screen holds one.</p>`
+  }
+];
+
+const main = document.getElementById('main');
+const barTitle = document.getElementById('barTitle');
+const barName = document.getElementById('barName');
+const els = [];
+
+blocks.forEach((b,i)=>{
+  const sec = document.createElement('section');
+  sec.className = 'block' + (b.cover ? ' cover' : '') + (b.tail ? ' tail' : '');
+  let inner = '';
+  if(b.room) inner += '<div class="eyebrow"><span class="who">jules</span> · ' + b.room.toLowerCase() + '</div>';
+  inner += '<div class="tx">' + (b.cover || b.tail ? b.a : '<p>'+b.a+'</p>') + '</div>';
+  sec.innerHTML = inner;
+  main.appendChild(sec);
+  els.push(sec);
+});
+
+let mode = 'down';
+let lastY = window.scrollY;
+let acc = 0;
+
+function applyMode(m){
+  if(m === mode) return;
+  mode = m;
+  document.body.className = m;
+  barTitle.textContent = m === 'down' ? 'attic to door' : 'door to attic';
+  barName.textContent = m === 'down' ? 'jules ↓' : 'marit ↑';
+  els.forEach((sec,i)=>{
+    const tx = sec.querySelector('.tx');
+    const who = sec.querySelector('.who');
+    tx.style.opacity = 0;
+    setTimeout(()=>{
+      const b = blocks[i];
+      const content = (m === 'down') ? b.a : b.b;
+      tx.innerHTML = (b.cover || b.tail) ? content : '<p>'+content+'</p>';
+      if(who) who.textContent = (m === 'down') ? 'jules' : 'marit';
+      tx.style.opacity = 1;
+    }, 190);
+  });
+}
+
+window.addEventListener('scroll', ()=>{
+  const y = window.scrollY;
+  const dy = y - lastY;
+  lastY = y;
+  // accumulate movement against the current mode; flip only on real intent
+  if((mode === 'down' && dy < 0) || (mode === 'up' && dy > 0)){
+    acc += Math.abs(dy);
+    if(acc > 60){
+      acc = 0;
+      applyMode(mode === 'down' ? 'up' : 'down');
+    }
+  }else{
+    acc = 0;
+  }
+},{passive:true});
+</script>
+</body>
+</html>

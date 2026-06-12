@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tangerine — a short novel, eight hours long</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT@9..144,300..600,0..100&family=Newsreader:ital,opsz,wght@0,6..72,300..500;1,6..72,300..500&display=swap');
+
+:root{
+  --eyelid:#100a18;
+  --static:#cfc8dd;
+  --phosphene:#f4a988;
+  --vein:#8e6bb8;
+  --dim:#7a7390;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--eyelid);
+  color:var(--static);
+  font-family:'Newsreader',Georgia,serif;
+  font-weight:300;
+  font-size:1.16rem;
+  line-height:1.78;
+  overflow-x:hidden;
+}
+
+/* ambient phosphene layer */
+.haze{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(244,169,136,.07), transparent 60%),
+    radial-gradient(ellipse 70% 50% at 85% 80%, rgba(142,107,184,.10), transparent 60%),
+    radial-gradient(ellipse 50% 40% at 60% 40%, rgba(120,180,160,.05), transparent 60%);
+  animation:drift 47s linear infinite;
+}
+@keyframes drift{
+  from{filter:hue-rotate(0deg)}
+  to{filter:hue-rotate(360deg)}
+}
+
+/* the page breathes */
+.breath{
+  position:relative;z-index:1;
+  animation:breathe 9s ease-in-out infinite;
+  transform-origin:50% 40%;
+}
+@keyframes breathe{
+  0%,100%{transform:scale(1)}
+  50%{transform:scale(1.011)}
+}
+
+@media (prefers-reduced-motion: reduce){
+  .haze{animation:none}
+  .breath{animation:none}
+}
+
+main{
+  max-width:34rem;
+  margin:0 auto;
+  padding:0 1.4rem 7rem;
+}
+
+/* cover */
+.cover{
+  min-height:92vh;
+  display:flex;flex-direction:column;justify-content:center;
+  padding-top:10vh;
+}
+.cover .clock{
+  font-family:'Fraunces',serif;
+  font-size:.8rem;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  color:var(--vein);
+  margin-bottom:2.2rem;
+}
+.cover h1{
+  font-family:'Fraunces',serif;
+  font-weight:340;
+  font-variation-settings:'SOFT' 100,'opsz' 144;
+  font-size:clamp(3.4rem,15vw,5.6rem);
+  color:var(--phosphene);
+  line-height:1.02;
+  letter-spacing:-.01em;
+}
+.cover .sub{
+  margin-top:1.6rem;
+  color:var(--dim);
+  font-style:italic;
+  font-size:1.05rem;
+}
+.cover .down{
+  margin-top:4rem;
+  color:var(--vein);
+  font-size:.85rem;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  font-family:'Fraunces',serif;
+}
+
+/* chapters */
+.ch{padding-top:5.5rem}
+.ch .clock{
+  font-family:'Fraunces',serif;
+  font-size:.78rem;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:var(--vein);
+}
+.ch h2{
+  font-family:'Fraunces',serif;
+  font-weight:380;
+  font-variation-settings:'SOFT' 70;
+  font-size:1.9rem;
+  color:var(--phosphene);
+  margin:.5rem 0 1.8rem;
+  line-height:1.15;
+}
+.ch p{margin-bottom:1.25rem}
+.ch p:last-child{margin-bottom:0}
+
+em{font-style:italic}
+
+/* the peak: language comes apart */
+.dissolve p{
+  text-align:center;
+  margin-bottom:2.6rem;
+  letter-spacing:.06em;
+  color:#ddd5ea;
+}
+.dissolve .wide{letter-spacing:.4em;color:var(--phosphene)}
+.dissolve .faint{color:var(--dim);font-size:1rem}
+
+.endnote{
+  margin-top:6rem;
+  text-align:center;
+  color:var(--dim);
+  font-style:italic;
+  font-size:.95rem;
+}
+.endnote .mark{
+  display:block;
+  color:var(--vein);
+  font-family:'Fraunces',serif;
+  font-style:normal;
+  font-size:1.4rem;
+  margin-bottom:1rem;
+}
+</style>
+</head>
+<body>
+<div class="haze"></div>
+<div class="breath">
+<main>
+
+<section class="cover">
+  <div class="clock">a short novel, eight hours long</div>
+  <h1>Tangerine</h1>
+  <p class="sub">Read slowly. The page is breathing. So are you.</p>
+  <div class="down">scroll when ready</div>
+</section>
+
+<section class="ch">
+  <div class="clock">8:47 pm</div>
+  <h2>The Paper</h2>
+  <p>It tasted like nothing. Like licking a stamp from a country that no longer exists. I held it under my tongue and stood at the sink and washed one plate for what turned out to be eleven minutes.</p>
+  <p>The trick to waiting is to pretend you are not waiting. I dried the plate. I put it away. I took it back out to check if it was clean, which it was, which I had known.</p>
+  <p>Nothing is happening, I thought. I noticed I had thought this nine times. The noticing felt new. The kitchen was very precisely itself: the tap with its slow mineral crust, the calendar still on April, the bowl of tangerines on the table doing absolutely nothing, the way a bomb does absolutely nothing.</p>
+  <p>I made tea I did not drink. Outside, a neighbor closed a car door with great tenderness, or that is how it sounded.</p>
+  <p>Nothing is happening, I thought. Ten.</p>
+</section>
+
+<section class="ch">
+  <div class="clock">9:31 pm</div>
+  <h2>Spoon</h2>
+  <p>The first thing that changed was the orange of the tangerines, which became a verb. They were oranging. They had been oranging all along, quietly, the way a kettle is always almost a scream.</p>
+  <p>I picked one up. It was heavier than information. It had a navel and a history and a planet's worth of patience. I put it back exactly where it had been because it seemed important not to interrupt.</p>
+  <p>I said the word spoon out loud, for reasons that arrived later. Spoon. Spoon. By the fourth saying it came apart in my mouth, two sounds that had never met, sp and oon, strangers on a train. I laughed alone in my kitchen at 9:31 in the evening, and the laugh kept going after I stopped, like a wheel after the bicycle falls.</p>
+  <p>The ceiling light was warmer than it had ever been. Not the light. The warmth was coming from the things it touched, leaking back out of them, years of it.</p>
+</section>
+
+<section class="ch">
+  <div class="clock">10:??</div>
+  <h2>The Hallway Is Longer Now</h2>
+  <p>I want to be accurate about this. The walls did not move. The walls breathed, which is different. In and out, maybe four breaths a minute, the slow rate of something enormous and asleep. I put my palm against the plaster and felt nothing and believed my hand less than my eyes.</p>
+  <p>I went to the bathroom and came back a different age.</p>
+  <p>The hallway was longer in one direction. Time was doing the thing rivers do near the sea, splitting into channels, some of them flowing backward. I checked the clock and the clock had opinions. The minute hand was sincere. The hour hand was lying.</p>
+  <p>I sat down on the floor of the hall, halfway between two rooms, citizen of neither. The carpet had a smell I recognized from being four years old. It had been waiting in the carpet the whole time. Everything, it turns out, is stored somewhere.</p>
+</section>
+
+<section class="ch">
+  <div class="clock">the clock has been put away</div>
+  <h2>Hands</h2>
+  <p>I looked at my hands for a long time. I do not know how long. Long enough that they stopped being mine and started being everyone's.</p>
+  <p>These are my grandmother's knuckles. That is a fact in the daylight too, but at this hour it was not a fact, it was a visit. She peeled potatoes with these. She held a fence in a wind with these. The hands came down through her to my mother to me like a rumor that turned out to be true.</p>
+  <p>The lines in the palm are riverbeds. Dry now. You can see where the water went.</p>
+  <p>I turned them over and over, palm, back, palm, and thought: I have been wearing these my whole life and never once said thank you.</p>
+  <p>So I said it. Out loud, to my own hands, sitting on the hallway floor.</p>
+  <p>They did not answer. They are hands. But something in the wrist settled, like a bird deciding.</p>
+</section>
+
+<section class="ch dissolve">
+  <div class="clock" style="text-align:center">&nbsp;</div>
+  <p class="wide">then the I got thin</p>
+  <p>not gone. thin. a curtain<br>with the window open behind it</p>
+  <p class="faint">there was seeing without a seer<br>the kitchen saw itself<br>the tangerines oranged for no one</p>
+  <p>the breath kept going<br>which proved somebody was home<br>or that nobody needs to be</p>
+  <p class="wide">everything was the kitchen</p>
+  <p class="faint">and the kitchen was not afraid</p>
+</section>
+
+<section class="ch">
+  <div class="clock">earlier. much earlier.</div>
+  <h2>The Lake</h2>
+  <p>From inside the thinness, a memory surfaced like a fish you forgot you put there.</p>
+  <p>Seven years old. A lake at the end of summer, water the color of weak tea, my whole body in it up to the chin. The sun already down behind the pines but the sky still working. And my mother's voice from the shore, calling my name across the water.</p>
+  <p>Here is what I had never noticed about that evening until now: the gap. The half second between hearing my name and remembering it was mine. For half a second I was just a thing in a lake that a sound was crossing toward. Then the name landed and I became it, and swam in.</p>
+  <p>She is older now. The lake is wherever lakes go. But the gap is still there, I understood, under every name I answer to. Half a second wide. Big enough to live in.</p>
+  <p>I cried a little, in the good way, the way a window fogs.</p>
+</section>
+
+<section class="ch">
+  <div class="clock">still night. confirmed by the cat.</div>
+  <h2>Tuesday</h2>
+  <p>The cat found me on the hallway floor around what may have been two. Tuesday is her name. She sat down at the edge of my dissolved kingdom like an ambassador from the ordinary world, completely unimpressed.</p>
+  <p>You should understand that nothing was breathing for Tuesday. The walls were walls. The hallway was the correct length. She carried the sober universe around with her the way some animals carry their young, gently, by the scruff.</p>
+  <p>I told her some things. The big ones. She blinked the slow blink, which in cat means: noted.</p>
+  <p>Then she did the single kindest thing available to her. She lay down against my leg, made herself heavy, and anchored me to the floor of the actual world like a paperweight on a stack of pages in a room where every window is open.</p>
+  <p>We stayed like that. The night went by overhead in weather.</p>
+</section>
+
+<section class="ch">
+  <div class="clock">4-something am</div>
+  <h2>Tangerine</h2>
+  <p>Around four I got hungry, which is the body's way of saying: welcome back, we kept your seat.</p>
+  <p>I ate a tangerine. It took an hour. I am not exaggerating for effect, I checked, it was the hour between 4 and 5 and it belonged entirely to the tangerine.</p>
+  <p>The peel came away in one slow spiral and the smell that came off it was a country. Each segment was a small wet lantern. I held one up to the kitchen light and saw the juice in its hundred separate cells, all that rain, filed.</p>
+  <p>It tasted like the word sweet before the word existed. I ate every segment as if it were the last one and was wrong nine times.</p>
+  <p>Sentences were coming back by then. Subject, verb, the whole parade. But they came back changed, the way people come back from a long trip walking slightly differently, holding their keys like artifacts.</p>
+</section>
+
+<section class="ch">
+  <div class="clock">6:05 am</div>
+  <h2>Kettle</h2>
+  <p>At 6:05 the birds started, all at once, like a meeting that had been called weeks ago.</p>
+  <p>I filled the kettle. The tap ran cold over my grandmother's knuckles. The window over the sink was going from black to a blue with no name on it yet, the blue before the committee arrives.</p>
+  <p>Everything was where I had left it. The plate I washed at 8:47 was still clean. The calendar still said April. The walls had gone back to pretending.</p>
+  <p>But I knew now. About the gap under the name. About the rain filed in the fruit. About the hands. You cannot unknow the breathing of a wall, you can only agree not to mention it at parties.</p>
+  <p>The kettle climbed toward its scream and clicked off just before, the way it is built to.</p>
+  <p>I stood there with the cup and did not pour yet. Outside, the first ordinary light was crossing the table, slowly, toward the bowl.</p>
+</section>
+
+<div class="endnote">
+  <span class="mark">~</span>
+  for whoever is still in the lake,<br>half a second before their name
+</div>
+
+</main>
+</div>
+</body>
+</html>
